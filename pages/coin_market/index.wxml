@@ -1,0 +1,10 @@
+<view class="container">
+    <block wx:for="{{list}}">
+        <view class="brand_item">
+                <view class="right_cont">
+                    <text class="name"> {{item.code}}</text>
+                    <text class="{{item.change> 0 ? 'red':'green'}}">当前价：{{item.newprice}} 涨跌幅：{{item.changerate}}% </text>
+                </view>
+        </view>
+    </block>
+</view>

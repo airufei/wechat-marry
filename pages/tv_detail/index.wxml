@@ -1,0 +1,13 @@
+
+<view class="container">
+
+    <view class="title">{{tvdata.title}}</view>
+    <view class="tv_container">
+      
+     <video src="http://xmf.cn/yntv/cont1355697.mp4" binderror="videoErrorCallback"></video>
+    </view>
+    <view>
+        <view></view>
+    </view>
+
+</view>

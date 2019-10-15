@@ -1,0 +1,29 @@
+/**index.wxss**/
+.container {
+  background-color: #F2f2f2;
+}
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  padding: 50rpx 0;
+  align-items: center;
+  background: #f9f027;
+}
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+.userinfo-nickname {
+  color: #333;
+}
+
+.qidai {
+   margin-top: 10%;
+   margin-bottom: 5%;
+   text-align: center;
+}
+.xmfwx {
+   text-align: center;
+}

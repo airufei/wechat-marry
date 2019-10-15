@@ -1,0 +1,11 @@
+<view class="container">
+    <block wx:for="{{list}}">
+        <navigator url="../tv_detail/index?id={{item.id}}">
+        <view class="brand_item">
+                <view class="right_cont">
+                    <text class="name"> {{item.title}}</text>
+                </view>
+        </view>
+        </navigator>
+    </block>
+</view>

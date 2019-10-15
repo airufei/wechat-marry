@@ -1,0 +1,28 @@
+<!--index.wxml-->
+<view class="container">
+    <view>
+        <swiper class="swiper_box" indicator-dots="{{indicatorDots}}" vertical="{{vertical}}"
+                autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" bindchange="swiperchange">
+            <block wx:for="{{images}}">
+                <swiper-item>
+                    <image src="http://xmf.cn/{{item.readpath}}" class="slide-image"/>
+                     <text class="qidai">敬请期待(xmf.cn)</text>
+                </swiper-item>
+            </block>
+        </swiper>
+
+    </view>
+    <view class="choice_box">
+        <view class="choice_list">
+            <block wx:for="{{choiceItems}}">
+                <navigator url="../details/index?id={{item.id}}">
+                    <view class="choice_item">
+                        <image src="http://xmf.cn/{{item.coverurl}}"/>
+                        <view class="title">{{item.title}}</view>
+                    </view>
+                </navigator>
+            </block>
+        </view>
+    </view>
+
+</view>
