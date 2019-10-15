@@ -17,7 +17,7 @@
         "pagePath": "pages/msg_list/index",
         "iconPath": "images/footer-icon-01.png",
         "selectedIconPath": "images/footer-icon-01-active.png",
-        "text": "区块链资讯"
+        "text": "好友祝福"
       },
       {
         "pagePath": "pages/coin_market/index",

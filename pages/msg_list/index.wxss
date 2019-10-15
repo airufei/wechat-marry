@@ -92,8 +92,12 @@
   transition: All 0.5s ease;
 }
 .item-style{  
-  padding: 30rpx;  
+  padding: 10rpx;  
   font-size: 40rpx;  
-  text-align: center;  
-  border-top: 2rpx solid #eee;  
+  text-align: left;  
+  border-top: 1rpx solid rgb(238, 231, 231);  
+}  
+.item-style-time{  
+  font-size: 30rpx;  
+  text-align: right;  
 }  

@@ -4,8 +4,9 @@
 </view>  
 <scroll-view class="scroll_container" scroll-y="true" style="top:{{refreshHeight}}rpx;bottom:{{loadMoreHeight}}rpx;"  bindscroll="scroll" bindscrolltolower="lower" bindscrolltoupper="upper" bindtouchstart="start" bindtouchend="end" >  
     <view class="content" bindtouchmove="move">
-        <block wx:for="{{coinList}}">  
-                <view class="item-style">{{item.title}}</view>  
+        <block wx:for="{{msgList}}">  
+            <view class="item-style">{{item.nickname}}：{{item.content}}</view>
+            <view class="item-style-time">{{item.createtimestr}}</view>
         </block>  
     </view>
 </scroll-view> 

@@ -56,9 +56,9 @@ function save(userInfo, openid)
   wx.request({
     url: postUrl,
     method: 'POST',
-    data: { "nickname": nickname, "age": age, "country": country, "province": province, "city": city, "photourl": photourl, "openId": openid},
+    data: { 'nickname': nickname, 'age': age, 'country': country, 'province': province, 'city': city, 'photourl': photourl, 'openId': openid },
     header: {
-      'Accept': 'application/json'
+      'content-type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
       console.log(postUrl);

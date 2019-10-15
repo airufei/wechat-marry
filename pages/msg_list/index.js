@@ -41,13 +41,13 @@ Page({
     wx.request({
       url: serverUrl + '/msg/getList',
       method: 'POST',
-      data: {"pageNo": currendSize, "pageSize": PAGE_SIZE},
+      data: { "pageNo": currendSize, "pageSize": PAGE_SIZE },
       header: {
-        'Accept': 'application/json'
+        'content-type': 'application/json'
       },
       success: function (res) {
         that.setData({
-          msgList: res.data.list
+          msgList: res.data.data.list
         });
         that.data.currentSize += PAGE_SIZE;
         wx.hideLoading();
@@ -128,7 +128,7 @@ Page({
   refresh: function () {
 
     this.setData({
-      coinList: [],
+      msgList: [],
       currentSize: 0
     });
     this.doLoadData(0, 20);
