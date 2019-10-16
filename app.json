@@ -1,34 +1,40 @@
 {
   "pages": [
-    "pages/msg_list/index",
+    "pages/photo/index",
     "pages/my/index",
-    "pages/details/index",
-    "pages/coin_market/index",
-    "pages/tv_detail/index",
-    "pages/tv_list/index"
+    "pages/comment/index"
   ],
+  "requiredBackgroundModes": [
+    "audio"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#CD96CD",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": false
+  },
   "tabBar": {
-    "color": "#6e6d6b",
-    "selectedColor": "#f9f027",
+    "color": "#000000",
+    "selectedColor": "",
     "borderStyle": "white",
-    "backgroundColor": "#292929",
+    "backgroundColor": "#FFFFFF",
     "list": [
       {
-        "pagePath": "pages/msg_list/index",
-        "iconPath": "images/footer-icon-01.png",
-        "selectedIconPath": "images/footer-icon-01-active.png",
-        "text": "婚纱"
+        "pagePath": "pages/photo/index",
+        "iconPath": "images/ic_home_normal.png",
+        "selectedIconPath": "images/ic_home_select.png",
+        "text": "首页"
       },
       {
-        "pagePath": "pages/coin_market/index",
-        "iconPath": "images/footer-icon-02.png",
-        "selectedIconPath": "images/footer-icon-02-active.png",
-        "text": "数字币行情"
+        "pagePath": "pages/comment/index",
+        "iconPath": "images/ic_heart_normal.png",
+        "selectedIconPath": "images/ic_heart_select.png",
+        "text": "祝福"
       },
       {
         "pagePath": "pages/my/index",
-        "iconPath": "images/footer-icon-04.png",
-        "selectedIconPath": "images/footer-icon-04-active.png",
+        "iconPath": "images/meme-normal@2x.png",
+        "selectedIconPath": "images/me-selected@2x.png",
         "text": "我的"
       }
     ]
