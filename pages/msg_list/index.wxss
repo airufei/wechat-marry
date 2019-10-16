@@ -1,10 +1,11 @@
 .scroll_container{
   z-index: 0;
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  border-width: 2rpx;
+  border-bottom-color: red;
 }
 
 /*上拉加载更多布局*/
@@ -95,9 +96,43 @@
   padding: 10rpx;  
   font-size: 40rpx;  
   text-align: left;  
-  border-top: 1rpx solid rgb(238, 231, 231);  
 }  
 .item-style-time{  
   font-size: 30rpx;  
   text-align: right;  
+  border-bottom: 1rpx solid rgb(238, 231, 231);  
 }  
+.send_msg {
+    z-index: 0;
+    width: 700rpx;
+    padding: 25rpx; 
+    background-color: #fff;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    top:15rpx; 
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
+
+}
+.send_ipt {
+    width: 500rpx;
+    padding: 10rpx;
+    font-size: 40rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    float: left;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+.send_btn {
+    width: 150rpx;
+    height: 100rpx;
+    font-size: 36rpx;
+    line-height: 100rpx;
+    float: right;
+    background: #CD96CD;
+    color: white
+}

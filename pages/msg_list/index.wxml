@@ -10,7 +10,14 @@
         </block>  
     </view>
 </scroll-view> 
+<view class="send_m">
+<form bindreset="foo">
+      <input placeholder="在这里输入您要说的话" class="send_ipt" bindinput="bindKeyInput" />
+      <button form-type="reset" class="send_btn">发布</button>
+ </form>
+ </view>
 <view class="loadMore-block" style="height:{{loadMoreHeight}}rpx"> 
         <image  class="{{loading?'roate':(pull?'pull':'')}}" src="{{loading?'../../images/loading.gif':'../../images/icon_arrow.png'}}"></image>
         <text  class="loading-text" >{{loading_text}}</text> 
 </view>  
+
