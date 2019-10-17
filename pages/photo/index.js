@@ -1,16 +1,24 @@
 var app = getApp();
 var common = require("../config.js");
+var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
-var musicUrl = 'http://www.ytmp3.cn/down/49676.mp3'
+var miu01 = 'http://www.ytmp3.cn/down/49676.mp3';
+var miu02 = 'https://rufei.cn/pic/miusic/xiangsi.mp3';
+var miu03 = 'https://rufei.cn/pic/miusic/xingyueshenhua.mp3';
+var miu04 = 'https://rufei.cn/pic/miusic/DarinCant Stop Love.mp3';
+
+var musicUrl = null;
+var items = [miu01, miu02, miu03, miu04];
 Page({
     data: {
       autoplay: true,
       isPlayingMusic: true,
-      music_url: musicUrl
+      music_url: miu04,
     },
     onLoad: function(options) {
+      userUtil.userIsLogin();
       wx.startPullDownRefresh;
       var that = this;
       that.setData({
@@ -18,20 +26,22 @@ Page({
       })
       getPhotoList(that);
       getBannerList(that);
-      //设置第一次数据
-      wx.playBackgroundAudio({
-        dataUrl: musicUrl,
-        title: '',
-        coverImgUrl: ''
-      })
-
+      musicPlay(miu04);
     },
     bindKeyInput: function (e) {
     this.setData({
       inputValue: e.detail.value
     })
     },
-
+ //长按切换歌曲
+  handleLongPress: function (e) {
+    var item = items[Math.floor(Math.random() * items.length)];
+    while (item == musicUrl) {
+      item = items[Math.floor(Math.random() * items.length)];
+    }
+    musicPlay(item);
+    musicUrl = musicUrl;
+  },
     //音乐暂停、启动
   play: function (event) {
     if (this.data.isPlayingMusic) {
@@ -58,9 +68,6 @@ Page({
     console.log("监听用户下拉动作");
     var that = this;
     pageNo =1;
-    that.setData({
-      photoList: [],
-    })
     getPhotoList(that);
   },
 
@@ -73,61 +80,6 @@ Page({
     pageNo = pageNo+1;
     getPhotoList(that);
   },
-    foo: function () {
-      var that = this;
-      //留言内容不是空值
-      var userInfo = app.globalData.userInfo;
-      if (userInfo == null || userInfo == undefined) {
-        wx.showModal({
-          title: '提示',
-          content: '未登录',
-          showCancel: false
-        })
-      }
-      var name = userInfo.nickName;
-      var face = userInfo.avatarUrl;
-      var words = that.data.inputValue;
-      if (words==null||words==undefined)
-      {
-        wx.showModal({
-          title: '提示',
-          content: '您还没有填写内容',
-          showCancel: false
-        })
-      }
-      wx.request({
-        url: serverUrl + '/msg/save',
-        method: 'POST',
-        data: {
-          'nickname': name,
-          'photourl': face,
-          'content': words,
-          'openId': app.globalData.openId
-        },
-        header: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
-        success: res => {
-          if (200 == res.statusCode) {
-            console.log(res.data)
-            pageNo = 1;
-            that.setData({
-              photoList: [],
-            })
-            getPhotoList(that);
-            wx.showModal({
-              title: '提示',
-              content: res.data.message,
-              showCancel: false
-            })
-          }
-        }
-      })
-    that.setData({
-      inputValue: '' //将data的inputValue清空
-    });
-    return;
-  }
 });
 
 //获取banner图
@@ -145,11 +97,6 @@ var getBannerList = function (that) {
       var message = res.data.message
       if (code!=200)
       {
-        wx.showModal({
-          title: '提示',
-          content: message,
-          showCancel: false
-        });
         return false;
       }
       that.setData({
@@ -159,10 +106,21 @@ var getBannerList = function (that) {
   })
 }
 
-
+//播放音乐
+var musicPlay = function (musicUrl) {
+  //设置第一次数据
+  wx.playBackgroundAudio({
+    dataUrl: musicUrl,
+    title: '',
+    coverImgUrl: ''
+  })
+}
 //获取相册列表
 var getPhotoList = function (that) {
   var type = "banner_photo"
+  that.setData({
+    bottom_msg: "加载中..."
+  });
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
@@ -174,15 +132,14 @@ var getPhotoList = function (that) {
       var code = res.data.code
       var message = res.data.message
       if (code != 200) {
-        wx.showModal({
-          title: '提示',
-          content: message,
-          showCancel: false
+        that.setData({
+          bottom_msg: "----没有了----"
         });
         return false;
       }
       that.setData({
-        photoList: res.data.data.list
+        photoList: res.data.data.list,
+        bottom_msg:"加载更多"
       });
     }
   })

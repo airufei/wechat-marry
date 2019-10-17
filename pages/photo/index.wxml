@@ -3,7 +3,7 @@
   <view wx:if="{{isPlayingMusic}}">
     <view class="background_music" bindtap="play">
       <image src="/images/music_icon.png" class="musicImg music_icon" />
-      <image src="/images/music_play.png" class="music_play pauseImg" />
+      <image src="/images/music_play.png" bindlongpress="handleLongPress" class="music_play pauseImg" />
     </view>
   </view>
   <view wx:else>
@@ -24,4 +24,5 @@
     <view class="chat_list" wx:for="{{photoList}}" wx:key="photo">
       <image src="{{item.url}}" class="photo_image_style" mode="aspectFill"/>
     </view>
+    <view class="bottom_line">{{bottom_msg}}</view>
 </view>

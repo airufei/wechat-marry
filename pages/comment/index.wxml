@@ -1,6 +1,5 @@
 <!--pages/bless/index.wxml-->
 <view class="container">
-  <view class="chat_view" wx:if="{{msgList.length > 0}}">
     <view class="chat_list" wx:for="{{msgList}}" wx:key="user">
       <view class="chat_face">
         <image src="{{item.photourl}}" />
@@ -14,7 +13,7 @@
         <!-- <view>{{item.words}}</view> -->
         <view>{{item.content}}</view>
       </view>
-    </view>
+  <view class="bottom_line">{{bottom_msg}}</view>
   </view>
   <view class="send_msg">
     <form bindreset="foo">

@@ -1,5 +1,6 @@
 var app = getApp();
 var common = require("../config.js");
+var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
@@ -9,8 +10,10 @@ Page({
     },
     onLoad: function(options) {
       //设置第一次数据
+      userUtil.userIsLogin();
       wx.startPullDownRefresh;
       var that = this;
+      pageNo = 1;
       getMsgList(that);
     },
     bindKeyInput: function (e) {
@@ -25,9 +28,6 @@ Page({
     console.log("监听用户下拉动作");
     var that = this;
     pageNo =1;
-    that.setData({
-      msgList: [],
-    })
     getMsgList(that);
   },
 
@@ -75,19 +75,18 @@ Page({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: res => {
-          if (200 == res.statusCode) {
-            console.log(res.data)
-            pageNo = 1;
-            that.setData({
-              msgList: [],
-            })
-            getMsgList(that);
+          var code = res.data.code
+          var message = res.data.message
+          if (code != 200) {
             wx.showModal({
               title: '提示',
               content: res.data.message,
               showCancel: false
             })
+            return false;
           }
+          pageNo = 1;
+          getMsgList(that);
         }
       })
     that.setData({
@@ -99,6 +98,9 @@ Page({
 
 //获取留言列表
 var getMsgList = function (that) {
+  that.setData({
+    bottom_msg: "加载中..."
+  });
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
@@ -107,19 +109,17 @@ var getMsgList = function (that) {
       'content-type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
-      var code=res.data.code
+      var code = res.data.code
       var message = res.data.message
-      if (code!=200)
-      {
-        wx.showModal({
-          title: '提示',
-          content: message,
-          showCancel: false
+      if (code != 200) {
+        that.setData({
+          bottom_msg: "----没有了----"
         });
         return false;
       }
       that.setData({
-        msgList: res.data.data.list
+        msgList: res.data.data.list,
+        bottom_msg: "加载更多"
       });
     }
   })

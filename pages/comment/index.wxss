@@ -268,3 +268,9 @@ input-holder {
   color: #ec5300;
   text-align: center;
 }
+.bottom_line{
+  margin-top: 5%;
+  font-size: 16px;
+  text-align: center;
+  color: #D8BFD8;
+}
