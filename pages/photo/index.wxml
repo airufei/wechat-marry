@@ -1,4 +1,4 @@
-<!--pages/bless/index.wxml-->
+<view class="container">
 <view wx:if="{{music_url}}">
   <view wx:if="{{isPlayingMusic}}">
     <view class="background_music" bindtap="play">
@@ -13,36 +13,15 @@
     </view>
   </view>
 </view>
-
-<view class="container">
     <swiper current='0' indicator-dots="true" class='banner_style' autoplay="true" interval="2600" duration="1200">
-      <block wx:for="{{imgUrls}}" wx:key="{{index}}">
+      <block wx:for="{{bannerList}}" wx:key="{{index}}">
         <swiper-item>
-          <image src="{{item.imgUrl}}" class="banner_image_style" mode="aspectFill"/>
+          <image src="{{item.url}}" class="banner_image_style" mode="aspectFill"/>
         </swiper-item>
       </block>
     </swiper>
-  <view class="chat_view" wx:if="{{photoList.length > 0}}">
+
     <view class="chat_list" wx:for="{{photoList}}" wx:key="photo">
-      <view class="chat_face">
-        <!-- <image src="{{item.face}}" /> -->
-        <image src="{{item.photourl}}" />
-      </view>
-      <view class="chat_words">
-        <view class="chat_meta">
-           <view hidden="true">{{item.id}}</view> 
-          <text class="chat_user">{{item.nickname}}</text>
-          <text class="chat_date">{{item.createtimestr}}</text>
-        </view>
-        <!-- <view>{{item.words}}</view> -->
-        <view>{{item.content}}</view>
-      </view>
+      <image src="{{item.url}}" class="photo_image_style" mode="aspectFill"/>
     </view>
-  </view>
-  <view class="send_msg">
-    <form bindreset="foo">
-      <input placeholder="在这里输入您要说的话" class="send_ipt" bindinput="bindKeyInput" />
-      <button form-type="reset" class="send_btn">发布</button>
-    </form>
-  </view>
 </view>

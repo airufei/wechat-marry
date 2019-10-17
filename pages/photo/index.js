@@ -17,19 +17,40 @@ Page({
         photoList: [],
       })
       getPhotoList(that);
+      getBannerList(that);
       //设置第一次数据
       wx.playBackgroundAudio({
         dataUrl: musicUrl,
         title: '',
         coverImgUrl: ''
       })
-      
+
     },
     bindKeyInput: function (e) {
     this.setData({
       inputValue: e.detail.value
     })
     },
+
+    //音乐暂停、启动
+  play: function (event) {
+    if (this.data.isPlayingMusic) {
+      wx.pauseBackgroundAudio();
+      this.setData({
+        isPlayingMusic: false
+      })
+    } else {
+      console.log('this.data.music_url', this.data.music_url)
+      wx.playBackgroundAudio({
+        dataUrl: this.data.music_url,
+        title: '',
+        coverImgUrl: ''
+      })
+      this.setData({
+        isPlayingMusic: true
+      })
+    }
+  },
   /**
 * 页面相关事件处理函数--监听用户下拉动作
 */
@@ -109,12 +130,13 @@ Page({
   }
 });
 
-//获取留言列表
-var getPhotoList = function (that) {
+//获取banner图
+var getBannerList = function (that) {
+  var type="banner_photo"
   wx.request({
-    url: serverUrl + '/msg/getList',
+    url: serverUrl + '/photo/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize },
+    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type},
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
@@ -123,6 +145,35 @@ var getPhotoList = function (that) {
       var message = res.data.message
       if (code!=200)
       {
+        wx.showModal({
+          title: '提示',
+          content: message,
+          showCancel: false
+        });
+        return false;
+      }
+      that.setData({
+        bannerList: res.data.data.list
+      });
+    }
+  })
+}
+
+
+//获取相册列表
+var getPhotoList = function (that) {
+  var type = "banner_photo"
+  wx.request({
+    url: serverUrl + '/photo/getList',
+    method: 'POST',
+    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code
+      var message = res.data.message
+      if (code != 200) {
         wx.showModal({
           title: '提示',
           content: message,
