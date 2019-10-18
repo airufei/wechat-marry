@@ -13,11 +13,11 @@
       <!-- <view>{{item.words}}</view> -->
       <view>{{item.content}}</view>
     </view>
-    <view class="bottom_line">{{bottom_msg}}</view>
   </view>
+   <view class="bottom_line">{{bottom_msg}}</view>
   <view class="send_msg">
     <form bindreset="comment">
-      <input placeholder="在这里输入您要说的话" class="send_ipt" bindinput="bindKeyInput" />
+      <input placeholder="我也要发祝福" class="send_ipt" bindinput="bindKeyInput" />
       <button form-type="reset" class="send_btn">发布</button>
     </form>
   </view>

@@ -32,11 +32,7 @@ Page({
  //长按切换歌曲
   handleLongPress: function (e) {
     var item = items[Math.floor(Math.random() * items.length)];
-    while (item == musicUrl) {
-      item = items[Math.floor(Math.random() * items.length)];
-    }
     musicPlay(item);
-    musicUrl = musicUrl;
   },
     //音乐暂停、启动
   play: function (event) {

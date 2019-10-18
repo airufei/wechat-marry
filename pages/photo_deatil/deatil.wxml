@@ -13,7 +13,6 @@
         <text class="chat_user">{{item.nickname}}</text>
         <text class="chat_date">{{item.createtimestr}}</text>
       </view>
-      <!-- <view>{{item.words}}</view> -->
       <view>{{item.content}}</view>
     </view>
   </view>

@@ -54,14 +54,14 @@ Page({
     //留言内容不是空值
     var userInfo = app.globalData.userInfo;
     if (userInfo == null || userInfo == undefined) {
-      wx.showModal({
-        title: '提示',
-        content: '未登录',
-        showCancel: false
-      })
+      wx.navigateTo({
+        url: '../login/login'
+      });
+      return;
     }
-    var name = userInfo.nickName;
-    var face = userInfo.avatarUrl;
+    var user = JSON.parse(userInfo);
+    var name = user.nickName;
+    var face = user.avatarUrl;
     var words = that.data.inputValue;
     if (words == null || words == undefined) {
       wx.showModal({
@@ -69,6 +69,7 @@ Page({
         content: '您还没有填写内容',
         showCancel: false
       })
+      return false;
     }
     wx.request({
       url: serverUrl + '/msg/save',
