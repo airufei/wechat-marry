@@ -3,15 +3,14 @@
   background-color: #f1f2f7;
 }
 .chat_list {
-    width: 630rpx;
-    margin: 0 auto;
-    margin-top: 30rpx;
-    padding: 30rpx;
+    margin-left: 3px;
+    margin-right: 3px;
     min-height: 0;
     overflow: hidden;
     background-color: #f1f2f7;
     box-shadow:  0 0 20px rgba(190,77,43,.2);
-    border-radius: 5%;
+    margin-bottom: 18rpx;
+    border-radius: 10%;
 }
 .chat_face {
     width: 100rpx;
@@ -89,4 +88,14 @@
   font-size: 16px;
   text-align: center;
   color: #D8BFD8;
+}
+.photo_image_style{
+  width: 100%;
+  border-radius: 10px;
+}
+.bg_img{
+  padding: 2px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }

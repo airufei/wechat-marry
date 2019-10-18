@@ -1,0 +1,28 @@
+<view class="container">
+<view wx:if="{{music_url}}">
+  <view wx:if="{{isPlayingMusic}}">
+    <view class="background_music" bindtap="play">
+      <image src="/images/music_icon.png" class="musicImg music_icon" />
+      <image src="/images/music_play.png" bindlongpress="handleLongPress" class="music_play pauseImg" />
+    </view>
+  </view>
+  <view wx:else>
+    <view class="background_music" bindtap="play">
+      <image src="/images/music_icon.png" class="musicImg" />
+      <image src="/images/music_play.png" class="music_play playImg" />
+    </view>
+  </view>
+</view>
+    <swiper current='0' indicator-dots="true" class='banner_style' autoplay="true" interval="2600" duration="1200">
+      <block wx:for="{{bannerList}}" wx:key="{{index}}">
+        <swiper-item>
+          <image src="{{item.url}}" class="banner_image_style" data-url="{{item.url}}" data-id="{{item.id}}" bindtap="toDetailView" mode="aspectFill"/>
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <view class="chat_list" wx:for="{{photoList}}" wx:key="photo">
+      <image src="{{item.url}}" class="photo_image_style" data-url="{{item.url}}" data-id="{{item.id}}" bindtap="toDetailView" mode="aspectFill"/>
+    </view>
+    <view class="bottom_line">{{bottom_msg}}</view>
+</view>

@@ -1,7 +1,6 @@
 {
   "pages": [
-    "pages/photo/index",
-    "pages/my/index",
+    "pages/index/index",
     "pages/comment/index"
   ],
   "requiredBackgroundModes": [
@@ -20,7 +19,7 @@
     "backgroundColor": "#FFFFFF",
     "list": [
       {
-        "pagePath": "pages/photo/index",
+        "pagePath": "pages/index/index",
         "iconPath": "images/ic_home_normal.png",
         "selectedIconPath": "images/ic_home_select.png",
         "text": "首页"
@@ -30,12 +29,6 @@
         "iconPath": "images/ic_heart_normal.png",
         "selectedIconPath": "images/ic_heart_select.png",
         "text": "祝福"
-      },
-      {
-        "pagePath": "pages/my/index",
-        "iconPath": "images/meme-normal@2x.png",
-        "selectedIconPath": "images/me-selected@2x.png",
-        "text": "我的"
       }
     ]
   },

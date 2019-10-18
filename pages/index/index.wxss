@@ -1,0 +1,110 @@
+
+.container{
+  background-color: #f1f2f7;
+}
+.chat_list {
+    margin: 3px;
+    min-height: 0;
+    overflow: hidden;
+    background-color: #f1f2f7;
+    box-shadow:  0 0 20px rgba(190,77,43,.2);
+}
+.photo_image_style{
+  width: 100%;
+  border-radius: 10px;
+}
+.background_music {
+  position: fixed;
+  top: 20rpx;
+  right: 10rpx;
+  z-index: 10001;
+  width: 100rpx;
+}
+
+.musicImg {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.music_icon {
+  animation: musicRotate 3s linear infinite;
+}
+
+.music_play {
+  width: 28rpx;
+  height: 60rpx;
+  margin-left: -5px;
+  transform-origin: top;
+  -webkit-transform: rotate(20deg);
+}
+
+.playImg {
+  animation: musicStop 1s linear forwards;
+}
+
+.pauseImg {
+  animation: musicStart 1s linear forwards;
+}
+
+@-webkit-keyframes musicRotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes musicStop {
+  from {
+    -webkit-transform: rotate(20deg);
+  }
+
+  to {
+    -webkit-transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes musicStart {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(20deg);
+  }
+}
+
+.music_stop {
+  width: 4em;
+  display: none;
+}
+
+.banner_image_style {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.banner_image {
+  width: 100%;
+  height: 100%;
+}
+.banner_style {
+  height: 220px;
+  border-radius: 5px;
+  margin-top: 2px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.item_image_style {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.bottom_line{
+  margin-top: 5%;
+  font-size: 16px;
+  text-align: center;
+  color: #D8BFD8;
+}

@@ -1,4 +1,4 @@
-@import "./wxParse/wxParse.wxss";
+
 /**app.wxss**/
 @import "./style/layout.wxss";
 
@@ -12,4 +12,7 @@
 
 page {
     background-color: #F2f2f2;
+}
+view{
+    word-break:break-all; overflow:auto;
 }

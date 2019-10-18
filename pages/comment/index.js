@@ -6,7 +6,7 @@ var pageNo=1;
 var pageSize = 10;
 Page({
     data: {
-        
+      commentList: [],
     },
     onLoad: function(options) {
       //设置第一次数据
@@ -14,7 +14,8 @@ Page({
       wx.startPullDownRefresh;
       var that = this;
       pageNo = 1;
-      getMsgList(that);
+      var isConcat = false;
+      getMsgList(that, isConcat);
     },
     bindKeyInput: function (e) {
     this.setData({
@@ -28,7 +29,8 @@ Page({
     console.log("监听用户下拉动作");
     var that = this;
     pageNo =1;
-    getMsgList(that);
+    var isConcat = false;
+    getMsgList(that, isConcat);
   },
 
   /**
@@ -38,9 +40,11 @@ Page({
     console.log("监听用户上拉拉动作");
     var that = this;
     pageNo = pageNo+1;
-    getMsgList(that);
+    var isConcat = true;
+    getMsgList(that, isConcat);
   },
-    foo: function () {
+  //提交评论
+  comment: function () {
       var that = this;
       //留言内容不是空值
       var userInfo = app.globalData.userInfo;
@@ -86,7 +90,8 @@ Page({
             return false;
           }
           pageNo = 1;
-          getMsgList(that);
+          var isConcat = false;
+          getMsgList(that, isConcat);
         }
       })
     that.setData({
@@ -97,7 +102,7 @@ Page({
 });
 
 //获取留言列表
-var getMsgList = function (that) {
+var getMsgList = function (that, isConcat) {
   that.setData({
     bottom_msg: "加载中..."
   });
@@ -117,8 +122,12 @@ var getMsgList = function (that) {
         });
         return false;
       }
+      var list = res.data.data.list;
+      if (isConcat) {
+        list = that.data.commentList.concat(res.data.data.list);
+      }
       that.setData({
-        msgList: res.data.data.list,
+        commentList: list,
         bottom_msg: "加载更多"
       });
     }
