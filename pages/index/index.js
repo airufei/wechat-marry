@@ -7,16 +7,18 @@ var pageSize = 10;
 var miu01 = 'http://www.ytmp3.cn/down/49676.mp3';
 var miu02 = 'https://rufei.cn/pic/miusic/xiangsi.mp3';
 var miu03 = 'https://rufei.cn/pic/miusic/xingyueshenhua.mp3';
-var miu04 = 'https://rufei.cn/pic/miusic/DarinCant Stop Love.mp3';
 
-var musicUrl = null;
-var items = [miu01, miu02, miu03, miu04];
+var musicUrl = miu02;
+var musicTitle = "相思-毛阿敏";
+var items = [miu01, miu02, miu03];
+var miusicNames = ["未知", "相思-毛阿敏", "星月神话"];
 Page({
     data: {
       autoplay: true,
       isPlayingMusic: true,
       bottom_line:false,
       music_url: miu02,
+      music_title:'相思-毛阿敏'
     },
     onLoad: function(options) {
       userUtil.userIsLogin();
@@ -28,12 +30,14 @@ Page({
       var isConcat = false;
       getPhotoList(that, isConcat);
       getBannerList(that);
-      musicPlay(miu04);
+      musicPlay(musicUrl, musicTitle);
     },
  //长按切换歌曲
   handleLongPress: function (e) {
-    var item = items[Math.floor(Math.random() * items.length)];
-    musicPlay(item);
+    var index = Math.floor(Math.random() * items.length);
+    var url = items[index];
+    var title = items[index];
+    musicPlay(url, title);
   },
     //音乐暂停、启动
   play: function (event) {
@@ -43,10 +47,9 @@ Page({
         isPlayingMusic: false
       })
     } else {
-      console.log('this.data.music_url', this.data.music_url)
       wx.playBackgroundAudio({
-        dataUrl: this.data.music_url,
-        title: '',
+        dataUrl: musicUrl,
+        title: musicTitle,
         coverImgUrl: ''
       })
       this.setData({
@@ -110,7 +113,7 @@ var getBannerList = function (that) {
 }
 
 //播放音乐
-var musicPlay = function (musicUrl) {
+var musicPlay = function (musicUrl,title) {
   //设置第一次数据
   wx.playBackgroundAudio({
     dataUrl: musicUrl,
