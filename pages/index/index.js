@@ -16,7 +16,7 @@ Page({
       autoplay: true,
       isPlayingMusic: true,
       bottom_line:false,
-      music_url: miu04,
+      music_url: miu02,
     },
     onLoad: function(options) {
       userUtil.userIsLogin();

@@ -1,5 +1,5 @@
 {
-  "desc": "关于本文件的更多信息，请参考文档 https://developers.weixin.qq.com/miniprogram/dev/framework/sitemap.html",
+  "desc": "本项目对应的接口请参考https://github.com/airufei/xmfcn-spring-cloud    xmfcn-spring-cloud-wechat-api和xmfcn-spring-cloud-wechat-service项目",
   "rules": [{
   "action": "allow",
   "page": "*"
