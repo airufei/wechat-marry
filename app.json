@@ -15,16 +15,16 @@
     "enablePullDownRefresh": false
   },
   "tabBar": {
-    "color": "#000000",
-    "selectedColor": "",
-    "borderStyle": "white",
-    "backgroundColor": "#FFFFFF",
+    "color": "#130c0e",
+    "selectedColor": "#ea66a6",
+    "borderStyle": "black",
+    "backgroundColor": "#fffffb",
     "list": [
       {
         "pagePath": "pages/index/index",
         "iconPath": "images/ic_home_normal.png",
         "selectedIconPath": "images/ic_home_select.png",
-        "text": "首页"
+        "text": "婚纱"
       },
       {
         "pagePath": "pages/comment/index",
@@ -34,6 +34,6 @@
       }
     ]
   },
-  "debug": true,
+  "debug": false,
   "sitemapLocation": "sitemap.json"
 }

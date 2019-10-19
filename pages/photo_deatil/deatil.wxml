@@ -3,6 +3,7 @@
   <view class="bg_img">
     <image src="{{bg_img_url}}" class="photo_image_style" mode="aspectFill" />
   </view>
+  <view class="bottom_msg">已有<text style="color:red">{{totalCount}}</text>好友评论，你也评论两句吧，谢谢</view>
   <view class="chat_list" wx:for="{{photoCommentList}}" wx:key="comment">
     <view class="chat_face">
       <image src="{{item.photourl}}" />
@@ -16,7 +17,10 @@
       <view>{{item.content}}</view>
     </view>
   </view>
-  <view class="bottom_line">{{bottom_msg}}</view>
+  <view wx:if="{{bottom_line}}">
+    <view class="bottom_line"></view>
+  </view>
+  <view class="bottom_msg">{{bottom_msg}}</view>
   <view class="send_msg">
     <form bindreset="photoComment">
       <input placeholder="在这里输入您要说的话" class="send_ipt" bindinput="bindKeyInput" />

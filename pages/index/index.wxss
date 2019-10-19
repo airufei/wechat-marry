@@ -102,9 +102,23 @@
   height: 100%;
   border-radius: 5px;
 }
+.bottom_msg{
+  margin-top: 2%;
+  font-size: 12px;
+  text-align: center;
+  color: #999d9c;
+}
 .bottom_line{
   margin-top: 5%;
-  font-size: 16px;
+  width: 100%;
+  border-top: 3rpx dashed #999d9c;
+}
+.todeatil {
+  bottom: 40rpx;
+  height: 50rpx;
+  line-height: 50rpx;
   text-align: center;
-  color: #D8BFD8;
+  color:#f173ac ;
+  border-radius: 10rpx;
+  font-size: 28rpx;
 }

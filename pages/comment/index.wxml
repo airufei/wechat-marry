@@ -1,5 +1,6 @@
 <!--pages/bless/index.wxml-->
 <view class="container">
+  <view class="bottom_msg">已有<text style="color:red">{{totalCount}}</text>好友祝福，你也说几句吧，谢谢</view>
   <view class="chat_list" wx:for="{{commentList}}" wx:key="user">
     <view class="chat_face">
       <image src="{{item.photourl}}" />
@@ -14,7 +15,10 @@
       <view>{{item.content}}</view>
     </view>
   </view>
-   <view class="bottom_line">{{bottom_msg}}</view>
+  <view wx:if="{{bottom_line}}">
+    <view class="bottom_line"></view>
+  </view>
+  <view class="bottom_msg">{{bottom_msg}}</view>
   <view class="send_msg">
     <form bindreset="comment">
       <input placeholder="我也要发祝福" class="send_ipt" bindinput="bindKeyInput" />

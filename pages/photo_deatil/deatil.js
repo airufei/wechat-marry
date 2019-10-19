@@ -5,6 +5,7 @@ var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
 var picId=null;
+var totalCount=0;
 Page({
     onLoad: function(options) {
       picId = options.id;//123
@@ -15,7 +16,9 @@ Page({
       wx.startPullDownRefresh;
       var that = this;
       that.setData({
+        totalCount: totalCount,
         photoCommentList: [],
+        bottom_line: false,
         bg_img_url: url
       })
       var isConcat = false;
@@ -117,27 +120,36 @@ var getPhotoCommentList = function (that,isConcat) {
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type, "bizId": picId},
+    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type, "bizid": picId},
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
-      var code = res.data.code
-      var message = res.data.message
+      var code = res.data.code;
+      var message = res.data.message;
+      totalCount = res.data.data.totalCount;
+      if (totalCount == null || totalCount == undefined) {
+        totalCount = 0;
+      }
+      that.setData({
+        totalCount: totalCount,
+        bottom_msg: "没有更多评论了,你说几句呗...",
+        bottom_line: true,
+      });
       if (code != 200) {
-        that.setData({
-          bottom_msg: "没有评论了,你说几句呗..."
-        });
         return false;
       }
       var list = res.data.data.list;
       if (isConcat)
       {
         list = that.data.photoCommentList.concat(res.data.data.list);
+        that.setData({
+          bottom_msg: "加载更多",
+          bottom_line: false,
+        });
       }
       that.setData({
-        photoCommentList: list,
-        bottom_msg:"加载更多"
+        photoCommentList: list
       });
     }
   })

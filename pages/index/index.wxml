@@ -23,6 +23,10 @@
 
     <view class="chat_list" wx:for="{{photoList}}" wx:key="photo">
       <image src="{{item.url}}" class="photo_image_style" data-url="{{item.url}}" data-id="{{item.id}}" bindtap="toDetailView" mode="aspectFill"/>
+      <view class="todeatil" data-url="{{item.url}}" data-id="{{item.id}}"  bindtap='toDetailView'>{{item.name}}-点击看我</view>
     </view>
-    <view class="bottom_line">{{bottom_msg}}</view>
+    <view wx:if="{{bottom_line}}">
+    <view class="bottom_line"></view>
+     </view>
+    <view class="bottom_msg">{{bottom_msg}}</view>
 </view>

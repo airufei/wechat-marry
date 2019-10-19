@@ -4,9 +4,12 @@ var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo = 1;
 var pageSize = 10;
+var totalCount = 0;
 Page({
   data: {
     commentList: [],
+    bottom_line: false,
+    totalCount: totalCount,
   },
   onLoad: function(options) {
     //设置第一次数据
@@ -120,21 +123,30 @@ var getMsgList = function(that, isConcat) {
       'content-type': 'application/x-www-form-urlencoded'
     },
     success: function(res) {
-      var code = res.data.code
-      var message = res.data.message
+      var code = res.data.code;
+      var message = res.data.message;
+      totalCount = res.data.data.totalCount;
+      if(totalCount==null||totalCount==undefined){
+        totalCount=0;
+      }
+      that.setData({
+        bottom_msg: "没有更多祝福了,你说几句呗...",
+        bottom_line: true,
+        totalCount: totalCount,
+      });
       if (code != 200) {
-        that.setData({
-          bottom_msg: "----没有了----"
-        });
         return false;
       }
       var list = res.data.data.list;
       if (isConcat) {
         list = that.data.commentList.concat(res.data.data.list);
+        that.setData({
+          bottom_line: false,
+          bottom_msg: "加载更多"
+        });
       }
       that.setData({
-        commentList: list,
-        bottom_msg: "加载更多"
+        commentList: list
       });
     }
   })

@@ -15,6 +15,7 @@ Page({
     data: {
       autoplay: true,
       isPlayingMusic: true,
+      bottom_line:false,
       music_url: miu04,
     },
     onLoad: function(options) {
@@ -99,7 +100,7 @@ var getBannerList = function (that) {
       var message = res.data.message
       if (code!=200)
       {
-        return false;
+         return false;
       }
       that.setData({
         bannerList: res.data.data.list
@@ -131,21 +132,25 @@ var getPhotoList = function (that, isConcat) {
       'content-type': 'application/x-www-form-urlencoded'
     },
     success: function (res) {
-      var code = res.data.code
-      var message = res.data.message
+      var code = res.data.code;
+      var message = res.data.message;
+      that.setData({
+        bottom_line:true,
+        bottom_msg: "没有更多照片了"
+      });
       if (code != 200) {
-        that.setData({
-          bottom_msg: "----没有了----"
-        });
         return false;
       }
       var list = res.data.data.list;
       if (isConcat) {
         list = that.data.photoList.concat(res.data.data.list);
+        that.setData({
+          bottom_line: false,
+          bottom_msg: "加载更多"
+        });
       }
       that.setData({
-        photoList: list,
-        bottom_msg: "加载更多"
+        photoList: list
       });
     }
   })

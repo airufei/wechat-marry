@@ -84,11 +84,16 @@
     background: #CD96CD;
     color: white
 }
+.bottom_msg{
+  margin-top: 2%;
+  font-size: 12px;
+  text-align: center;
+  color: #999d9c;
+}
 .bottom_line{
   margin-top: 5%;
-  font-size: 16px;
-  text-align: center;
-  color: #D8BFD8;
+  width: 100%;
+  border-top: 3rpx dashed #999d9c;
 }
 .photo_image_style{
   width: 100%;
