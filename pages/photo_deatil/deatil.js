@@ -10,6 +10,7 @@ Page({
     onLoad: function(options) {
       picId = options.id;//123
       var url = options.url;
+      var name = options.name;
       pageNo = 1;
       console.log(picId + "-----------------" + url);
       userUtil.userIsLogin();
@@ -19,7 +20,8 @@ Page({
         totalCount: totalCount,
         photoCommentList: [],
         bottom_line: false,
-        bg_img_url: url
+        bg_img_url: url,
+        bg_img_name: name
       })
       var isConcat = false;
       getPhotoCommentList(that, isConcat);

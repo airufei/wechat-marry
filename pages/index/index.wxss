@@ -113,11 +113,12 @@
   border-top: 3rpx dashed #999d9c;
 }
 .todeatil {
-  bottom: 40rpx;
+  position: fixed;
   height: 50rpx;
   line-height: 50rpx;
   text-align: center;
   color:#f173ac ;
   border-radius: 10rpx;
   font-size: 28rpx;
+  z-index: 10001;
 }
