@@ -1,5 +1,6 @@
-<view class="container">
-    <view class="content1"></view>
-    <view >  <button class="confirm-btn" open-type='getUserInfo' bindgetuserinfo='getUserInfo' bindtap="btnEnter">欢迎登录</button></view>
-    <view class="content3"></view>
+
+  <view class="content1">
+    <view>
+      <button class="confirm-btn" open-type='getUserInfo' bindgetuserinfo='getUserInfo' bindtap="btnEnter">欢迎登录</button>
+    </view>
 </view>

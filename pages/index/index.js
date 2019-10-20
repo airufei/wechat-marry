@@ -83,7 +83,7 @@ Page({
     var id = e.currentTarget.dataset.id;//123
     var url = e.currentTarget.dataset.url;
     wx.navigateTo({
-      url: '../photo_deatil/deatil?id=' + id + '&url=' + url,
+      url: '../photo_deatil/deatil?id=' + id + '&url=' + url + '&name=' + url,
     })
   },
 });
@@ -117,13 +117,13 @@ var musicPlay = function (musicUrl,title) {
   //设置第一次数据
   wx.playBackgroundAudio({
     dataUrl: musicUrl,
-    title: '',
+    title: musicTitle,
     coverImgUrl: ''
   })
 }
 //获取相册列表
 var getPhotoList = function (that, isConcat) {
-  var type = "banner_photo"
+  var type = "common_photo"
   that.setData({
     bottom_msg: "加载中..."
   });

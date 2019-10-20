@@ -16,14 +16,14 @@
     <swiper current='0' indicator-dots="true" class='banner_style' autoplay="true" interval="2600" duration="1200">
       <block wx:for="{{bannerList}}" wx:key="{{index}}">
         <swiper-item>
-          <image src="{{item.url}}" class="banner_image_style" data-url="{{item.url}}" data-id="{{item.id}}" bindtap="toDetailView" mode="aspectFill"/>
+          <image src="{{item.url}}" class="banner_image_style" data-url="{{item.url}}" data-id="{{item.id}}"  data-id="{{item.name}}" bindtap="toDetailView" mode="aspectFill"/>
         </swiper-item>
       </block>
     </swiper>
 
     <view class="chat_list" wx:for="{{photoList}}" wx:key="photo">
-      <image src="{{item.url}}" class="photo_image_style" data-url="{{item.url}}" data-id="{{item.id}}" bindtap="toDetailView" mode="aspectFill"/>
-      <view class="todeatil" data-url="{{item.url}}" data-id="{{item.id}}"  bindtap='toDetailView'>{{item.name}}-点击看我</view>
+      <image src="{{item.url}}" class="photo_image_style" data-url="{{item.url}}" data-id="{{item.id}}" data-id="{{item.name}}" bindtap="toDetailView" mode="widthFix"/>
+      <view class="todeatil" data-url="{{item.url}}" data-id="{{item.id}}" data-id="{{item.name}}"  bindtap='toDetailView'>{{item.name}}-点击看我</view>
     </view>
     <view wx:if="{{bottom_line}}">
     <view class="bottom_line"></view>

@@ -4,7 +4,6 @@
 }
 .chat_list {
     margin: 3px;
-    min-height: 0;
     overflow: hidden;
     background-color: #f1f2f7;
     box-shadow:  0 0 20px rgba(190,77,43,.2);
@@ -91,7 +90,7 @@
   height: 100%;
 }
 .banner_style {
-  height: 220px;
+  height: 260px;
   border-radius: 5px;
   margin-top: 2px;
   margin-left: 3px;
