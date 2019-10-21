@@ -4,21 +4,14 @@ var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
-var miu01 = 'http://www.ytmp3.cn/down/49676.mp3';
-var miu02 = 'https://rufei.cn/pic/miusic/xiangsi.mp3';
-var miu03 = 'https://rufei.cn/pic/miusic/xingyueshenhua.mp3';
-
-var musicUrl = miu02;
-var musicTitle = "相思-毛阿敏";
-var items = [miu01, miu02, miu03];
-var miusicNames = ["未知", "相思-毛阿敏", "星月神话"];
+var musicList=null;
+var musicUrl = null;
+var musicTitle = null;
 Page({
     data: {
-      autoplay: true,
       isPlayingMusic: true,
       bottom_line:false,
-      music_url: miu02,
-      music_title:'相思-毛阿敏'
+      music_url: true,
     },
     onLoad: function(options) {
       userUtil.userIsLogin();
@@ -30,14 +23,12 @@ Page({
       var isConcat = false;
       getPhotoList(that, isConcat);
       getBannerList(that);
-      musicPlay(musicUrl, musicTitle);
+      musicPlay(that);
     },
  //长按切换歌曲
   handleLongPress: function (e) {
-    var index = Math.floor(Math.random() * items.length);
-    var url = items[index];
-    var title = items[index];
-    musicPlay(url, title);
+    var that = this;
+    musicPlay(that);
   },
     //音乐暂停、启动
   play: function (event) {
@@ -47,11 +38,7 @@ Page({
         isPlayingMusic: false
       })
     } else {
-      wx.playBackgroundAudio({
-        dataUrl: musicUrl,
-        title: musicTitle,
-        coverImgUrl: ''
-      })
+      musicPlay(this);
       this.setData({
         isPlayingMusic: true
       })
@@ -113,13 +100,46 @@ var getBannerList = function (that) {
 }
 
 //播放音乐
-var musicPlay = function (musicUrl,title) {
+var musicPlay = function (that) {
   //设置第一次数据
+  if(musicList==null||musicList==undefined){
+    getMusicList();
+    setTimeout(function () {
+      musicPlay();
+    }, 1000) //延迟时间 这里是1秒
+  }
+  if (musicList == null || musicList == undefined) {
+    return;
+  }
+  var index = Math.floor(Math.random() * musicList.length);
+  if (musicUrl == null || musicUrl==undefined){
+    musicTitle = musicList[index].title;
+    musicUrl = musicList[index].url;
+  }
   wx.playBackgroundAudio({
     dataUrl: musicUrl,
     title: musicTitle,
     coverImgUrl: ''
   })
+}
+//获取音乐列表
+var getMusicList = function () {
+  var type = "";
+  wx.request({
+    url: serverUrl + '/music/getList',
+    method: 'POST',
+    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      if (code != 200) {
+        return false;
+      }
+      musicList = res.data.data.list;
+    }
+  });
 }
 //获取相册列表
 var getPhotoList = function (that, isConcat) {

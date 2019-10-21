@@ -1,8 +1,8 @@
 var app = getApp();
 var common = require("config.js");
 //微信用户是否登录
-function userIsLogin () {
-  if (app == null || app==undefined){
+function userIsLogin() {
+  if (app == null || app == undefined) {
     return;
   }
   var user = app.globalData.userInfo;
