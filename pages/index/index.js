@@ -73,20 +73,34 @@ Page({
   btnLike: function (e) {
     var that = this;
     var bizId = e.currentTarget.dataset.id;//123
-    commitLike(that, bizId);
+    saveCache(bizId,1);
+    setTimeout(function () {
+      commitLike(that, bizId);
+    }, 5000) //延迟时间 这里是5秒
   },
 });
 
 //点赞功能
 var commitLike= function(that,bizId){
+  var likeCount=getCache(bizId);
+  var userInfo = app.globalData.userInfo;
+  if (userInfo == null || userInfo == undefined) {
+    wx.navigateTo({
+      url: '../login/login'
+    });
+    return;
+  }
+  var user = JSON.parse(userInfo);
+  var name = user.nickName;
+  var face = user.avatarUrl;
   wx.request({
-    url: serverUrl + '/msg/save',
+    url: serverUrl + '/like/save',
     method: 'POST',
     data: {
       'bizId': bizId,
       'nickname': name,
       'photourl': face,
-      'count': 1,
+      'likeCount': likeCount,
       'type': 'photo_like',
       'openId': app.globalData.openId
     },
@@ -104,9 +118,6 @@ var commitLike= function(that,bizId){
         })
         return false;
       }
-      pageNo = 1;
-      var isConcat = false;
-      getPhotoCommentList(that, isConcat);
     }
   });
 }
@@ -215,4 +226,30 @@ var getPhotoList = function (that, isConcat) {
       });
     }
   })
-}
+};
+
+//存储本地缓存
+var saveCache = function(key, value) {
+  try {
+    var cacheValue = wx.getStorageSync(key);
+    if (cacheValue==null)
+    {
+      cacheValue=0;
+    }
+    value = parseInt(cacheValue) + value;
+
+    wx.setStorageSync(key, value.toString());
+  } catch (e) {
+    console.log(e)
+  }
+};
+//获取本地缓存
+var getCache = function (key) {
+  var cacheValue =null;
+  try {
+    var cacheValue=wx.getStorageSync(key);
+  } catch (e) {
+    console.log("getCache---------------------"+e)
+  }
+  return cacheValue;
+};

@@ -26,8 +26,8 @@
       <image src="{{item.url}}" class="photo_image_style" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView" mode="widthFix" />
     </view>
     <view class="todeatil">
-      <button class="comment_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView">20评</button>
-      <button class="like_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="btnLike">30赞</button>
+      <button class="like_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="btnLike">{{item.likeCount}}赞</button>
+      <button class="comment_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView">{{item.commentCount}}评</button>
     </view>
   </view>
   <view wx:if="{{bottom_line}}">
