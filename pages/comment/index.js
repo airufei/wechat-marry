@@ -1,6 +1,5 @@
 var app = getApp();
 var common = require("../config.js");
-var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo = 1;
 var pageSize = 10;
@@ -13,7 +12,7 @@ Page({
   },
   onLoad: function(options) {
     //设置第一次数据
-    userUtil.userIsLogin();
+    common.userIsLogin();
     wx.startPullDownRefresh;
     var that = this;
     pageNo = 1;
@@ -29,7 +28,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    console.log("监听用户下拉动作");
     var that = this;
     pageNo = 1;
     var isConcat = false;
@@ -40,7 +38,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-    console.log("监听用户上拉拉动作");
     var that = this;
     pageNo = pageNo + 1;
     var isConcat = true;

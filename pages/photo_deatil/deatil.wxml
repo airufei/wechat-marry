@@ -10,7 +10,6 @@
     </view>
     <view class="chat_words">
       <view class="chat_meta">
-        <view hidden="true">{{item.id}}</view>
         <text class="chat_user">{{item.nickname}}</text>
         <text class="chat_date">{{item.createtimestr}}</text>
       </view>

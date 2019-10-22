@@ -1,6 +1,5 @@
 var app = getApp();
 var common = require("../config.js");
-var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
@@ -14,7 +13,7 @@ Page({
       music_url: true,
     },
     onLoad: function(options) {
-      userUtil.userIsLogin();
+      common.userIsLogin();
       wx.startPullDownRefresh;
       var that = this;
       that.setData({
@@ -23,12 +22,12 @@ Page({
       var isConcat = false;
       getPhotoList(that, isConcat);
       getBannerList(that);
-      musicPlay(that);
+      musicPlay('first');
     },
  //长按切换歌曲
   handleLongPress: function (e) {
     var that = this;
-    musicPlay(that);
+    musicPlay('change');
   },
     //音乐暂停、启动
   play: function (event) {
@@ -38,7 +37,7 @@ Page({
         isPlayingMusic: false
       })
     } else {
-      musicPlay(this);
+      musicPlay('start');
       this.setData({
         isPlayingMusic: true
       })
@@ -48,7 +47,6 @@ Page({
 * 页面相关事件处理函数--监听用户下拉动作
 */
   onPullDownRefresh: function () {
-    console.log("监听用户下拉动作");
     var that = this;
     pageNo =1;
     var isConcat = false;
@@ -59,7 +57,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("监听用户上拉拉动作");
     var that = this;
     pageNo = pageNo+1;
     var isConcat = true;
@@ -100,21 +97,24 @@ var getBannerList = function (that) {
 }
 
 //播放音乐
-var musicPlay = function (that) {
+var musicPlay = function (type) {
   //设置第一次数据
   if(musicList==null||musicList==undefined){
     getMusicList();
     setTimeout(function () {
-      musicPlay();
+      musicPlay(type);
     }, 1000) //延迟时间 这里是1秒
   }
   if (musicList == null || musicList == undefined) {
     return;
   }
   var index = Math.floor(Math.random() * musicList.length);
-  if (musicUrl == null || musicUrl==undefined){
+  if ((musicUrl == null || musicUrl == undefined) ||type =='change'){
     musicTitle = musicList[index].title;
     musicUrl = musicList[index].url;
+  }
+  if (musicUrl == null || musicUrl == undefined) {
+    console.log(type +"播放器 没有播放连接=" + musicUrl);
   }
   wx.playBackgroundAudio({
     dataUrl: musicUrl,

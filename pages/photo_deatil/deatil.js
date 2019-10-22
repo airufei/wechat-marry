@@ -1,19 +1,18 @@
 var app = getApp();
 var common = require("../config.js");
-var userUtil = require("../userUtil.js");
 var serverUrl = common.getserverUrl();
 var pageNo=1;
 var pageSize = 10;
-var picId=null;
+var bizId=null;
 var totalCount=0;
 Page({
     onLoad: function(options) {
-      picId = options.id;//123
+      bizId = options.id;//123
       var url = options.url;
       var name = options.name;
       pageNo = 1;
-      console.log(picId + "-----------------" + url);
-      userUtil.userIsLogin();
+      console.log(bizId + "-----------------" + url);
+      common.userIsLogin();
       wx.startPullDownRefresh;
       var that = this;
       that.setData({
@@ -35,7 +34,6 @@ Page({
 * 页面相关事件处理函数--监听用户下拉动作
 */
   onPullDownRefresh: function () {
-    console.log("监听用户下拉动作");
     var that = this;
     pageNo =1;
     var isConcat = false;
@@ -47,7 +45,6 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("监听用户上拉拉动作");
     var that = this;
     pageNo = pageNo+1;
     var isConcat = true;
@@ -80,7 +77,7 @@ Page({
       url: serverUrl + '/msg/save',
       method: 'POST',
       data: {
-        'bizId': picId,
+        'bizId': bizId,
         'nickname': name,
         'photourl': face,
         'content': words,
@@ -122,7 +119,7 @@ var getPhotoCommentList = function (that,isConcat) {
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type, "bizid": picId},
+    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type, "bizId": bizId},
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
