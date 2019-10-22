@@ -70,8 +70,46 @@ Page({
       url: '../photo_deatil/deatil?id=' + id + '&url=' + url + '&name=' + url,
     })
   },
+  btnLike: function (e) {
+    var that = this;
+    var bizId = e.currentTarget.dataset.id;//123
+    commitLike(that, bizId);
+  },
 });
 
+//点赞功能
+var commitLike= function(that,bizId){
+  wx.request({
+    url: serverUrl + '/msg/save',
+    method: 'POST',
+    data: {
+      'bizId': bizId,
+      'nickname': name,
+      'photourl': face,
+      'count': 1,
+      'type': 'photo_like',
+      'openId': app.globalData.openId
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: res => {
+      var code = res.data.code
+      var message = res.data.message
+      if (code != 200) {
+        wx.showModal({
+          title: '提示',
+          content: res.data.message,
+          showCancel: false
+        })
+        return false;
+      }
+      pageNo = 1;
+      var isConcat = false;
+      getPhotoCommentList(that, isConcat);
+    }
+  });
+}
 //获取banner图
 var getBannerList = function (that) {
   var type="banner_photo"

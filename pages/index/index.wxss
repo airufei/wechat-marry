@@ -113,10 +113,28 @@
   border-top: 3rpx dashed #999d9c;
 }
 .todeatil {
-  height: 50rpx;
-  line-height: 50rpx;
-  text-align: center;
-  color:#f173ac ;
+  height: 70rpx;
+  right: 10px;
   border-radius: 10rpx;
   font-size: 28rpx;
+}
+.like_btn {
+    width: 180rpx;
+    height: 60rpx;
+    font-size: 28rpx;
+    line-height: 60rpx;
+    background: #CD96CD;
+    float: right;
+    color: white
+}
+.comment_btn {
+    width: 180rpx;
+    height: 60rpx;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 28rpx;
+    line-height: 60rpx;
+    float: right;
+    background: #CD96CD;
+    color: white
 }
