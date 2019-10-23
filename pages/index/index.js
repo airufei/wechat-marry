@@ -90,8 +90,7 @@ Page({
 });
 
 //点赞功能
-var commitLike = function(that, bizId) {
-  var likeCount = 1;
+var commitLike= function(that,bizId){
   var userInfo = app.globalData.userInfo;
   if (userInfo == null || userInfo == undefined) {
     wx.navigateTo({
