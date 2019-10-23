@@ -70,8 +70,8 @@ Page({
       url: serverUrl + '/msg/save',
       method: 'POST',
       data: {
-        'nickname': name,
-        'photourl': face,
+        'nickName': name,
+        'photoUrl': face,
         'content': words,
         'type': 'common_comment',
         'openId': app.globalData.openId

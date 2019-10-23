@@ -1,36 +1,36 @@
 var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
-var pageNo=1;
+var pageNo = 1;
 var pageSize = 10;
-var musicList=null;
+var musicList = null;
 var musicUrl = null;
 var musicTitle = null;
 Page({
-    data: {
-      isPlayingMusic: true,
-      bottom_line:false,
-      music_url: true,
-    },
-    onLoad: function(options) {
-      common.userIsLogin();
-      wx.startPullDownRefresh;
-      var that = this;
-      that.setData({
-        photoList: [],
-      })
-      var isConcat = false;
-      getPhotoList(that, isConcat);
-      getBannerList(that);
-      musicPlay('first');
-    },
- //长按切换歌曲
-  handleLongPress: function (e) {
+  data: {
+    isPlayingMusic: true,
+    bottom_line: false,
+    music_url: true,
+  },
+  onLoad: function(options) {
+    common.userIsLogin();
+    wx.startPullDownRefresh;
+    var that = this;
+    that.setData({
+      photoList: [],
+    })
+    var isConcat = false;
+    getPhotoList(that, isConcat);
+    getBannerList(that);
+    musicPlay('first');
+  },
+  //长按切换歌曲
+  handleLongPress: function(e) {
     var that = this;
     musicPlay('change');
   },
-    //音乐暂停、启动
-  play: function (event) {
+  //音乐暂停、启动
+  play: function(event) {
     if (this.data.isPlayingMusic) {
       wx.pauseBackgroundAudio();
       this.setData({
@@ -44,11 +44,11 @@ Page({
     }
   },
   /**
-* 页面相关事件处理函数--监听用户下拉动作
-*/
-  onPullDownRefresh: function () {
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
     var that = this;
-    pageNo =1;
+    pageNo = 1;
     var isConcat = false;
     getPhotoList(that, isConcat);
   },
@@ -56,33 +56,42 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
     var that = this;
-    pageNo = pageNo+1;
+    pageNo = pageNo + 1;
     var isConcat = true;
     getPhotoList(that, isConcat);
   },
   //跳转详情
-  toDetailView: function (e) {
-    var id = e.currentTarget.dataset.id;//123
+  toDetailView: function(e) {
+    var id = e.currentTarget.dataset.id; //123
     var url = e.currentTarget.dataset.url;
     wx.navigateTo({
       url: '../photo_deatil/deatil?id=' + id + '&url=' + url + '&name=' + url,
     })
   },
-  btnLike: function (e) {
+  btnLike: function(e) {
     var that = this;
-    var bizId = e.currentTarget.dataset.id;//123
-    saveCache(bizId,1);
-    setTimeout(function () {
+    var bizId = e.currentTarget.dataset.id; //123
+    var openId = app.globalData.openId;
+    var key = openId + bizId;
+    var cache = getCache(key);
+    if (cache != null && cache != undefined && cache.length>0) {
+      wx.showModal({
+        title: '温馨提示',
+        content: "这张已赞过，你可以点赞下一张，谢谢.",
+        showCancel: false
+      })
+    } else {
+      saveCache(key,'has_kile');
       commitLike(that, bizId);
-    }, 5000) //延迟时间 这里是5秒
+    }
   },
 });
 
 //点赞功能
-var commitLike= function(that,bizId){
-  var likeCount=getCache(bizId);
+var commitLike = function(that, bizId) {
+  var likeCount = 1;
   var userInfo = app.globalData.userInfo;
   if (userInfo == null || userInfo == undefined) {
     wx.navigateTo({
@@ -98,9 +107,9 @@ var commitLike= function(that,bizId){
     method: 'POST',
     data: {
       'bizId': bizId,
-      'nickname': name,
-      'photourl': face,
       'likeCount': likeCount,
+      'nickName': name,
+      'photoUrl': face,
       'type': 'photo_like',
       'openId': app.globalData.openId
     },
@@ -117,26 +126,36 @@ var commitLike= function(that,bizId){
           showCancel: false
         })
         return false;
+      } else {
+        wx.showModal({
+          title: '温馨提示',
+          content: "谢谢点赞",
+          showCancel: false
+        })
       }
     }
   });
 }
+
 //获取banner图
-var getBannerList = function (that) {
-  var type="banner_photo"
+var getBannerList = function(that) {
+  var type = "banner_photo"
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": 10, "type": type},
+    data: {
+      "pageNo": pageNo,
+      "pageSize": 10,
+      "type": type
+    },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
-      var code=res.data.code
+    success: function(res) {
+      var code = res.data.code
       var message = res.data.message
-      if (code!=200)
-      {
-         return false;
+      if (code != 200) {
+        return false;
       }
       that.setData({
         bannerList: res.data.data.list
@@ -146,11 +165,11 @@ var getBannerList = function (that) {
 }
 
 //播放音乐
-var musicPlay = function (type) {
+var musicPlay = function(type) {
   //设置第一次数据
-  if(musicList==null||musicList==undefined){
+  if (musicList == null || musicList == undefined) {
     getMusicList();
-    setTimeout(function () {
+    setTimeout(function() {
       musicPlay(type);
     }, 1000) //延迟时间 这里是1秒
   }
@@ -158,12 +177,12 @@ var musicPlay = function (type) {
     return;
   }
   var index = Math.floor(Math.random() * musicList.length);
-  if ((musicUrl == null || musicUrl == undefined) ||type =='change'){
+  if ((musicUrl == null || musicUrl == undefined) || type == 'change') {
     musicTitle = musicList[index].title;
     musicUrl = musicList[index].url;
   }
   if (musicUrl == null || musicUrl == undefined) {
-    console.log(type +"播放器 没有播放连接=" + musicUrl);
+    console.log(type + "播放器 没有播放连接=" + musicUrl);
   }
   wx.playBackgroundAudio({
     dataUrl: musicUrl,
@@ -171,17 +190,22 @@ var musicPlay = function (type) {
     coverImgUrl: ''
   })
 }
+
 //获取音乐列表
-var getMusicList = function () {
+var getMusicList = function() {
   var type = "";
   wx.request({
     url: serverUrl + '/music/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type },
+    data: {
+      "pageNo": pageNo,
+      "pageSize": pageSize,
+      "type": type
+    },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       if (code != 200) {
         return false;
@@ -191,7 +215,7 @@ var getMusicList = function () {
   });
 }
 //获取相册列表
-var getPhotoList = function (that, isConcat) {
+var getPhotoList = function(that, isConcat) {
   var type = "common_photo"
   that.setData({
     bottom_msg: "加载中..."
@@ -199,15 +223,19 @@ var getPhotoList = function (that, isConcat) {
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type },
+    data: {
+      "pageNo": pageNo,
+      "pageSize": pageSize,
+      "type": type
+    },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
       that.setData({
-        bottom_line:true,
+        bottom_line: true,
         bottom_msg: "没有更多照片了"
       });
       if (code != 200) {
@@ -231,25 +259,20 @@ var getPhotoList = function (that, isConcat) {
 //存储本地缓存
 var saveCache = function(key, value) {
   try {
-    var cacheValue = wx.getStorageSync(key);
-    if (cacheValue==null)
-    {
-      cacheValue=0;
-    }
-    value = parseInt(cacheValue) + value;
-
-    wx.setStorageSync(key, value.toString());
+    var key = "cache_type_" + key;
+    wx.setStorageSync(key, value);
   } catch (e) {
-    console.log(e)
+    console.log("saveCache---------------------" + e)
   }
 };
 //获取本地缓存
-var getCache = function (key) {
-  var cacheValue =null;
+var getCache = function(key) {
+  var key = "cache_type_" + key;
+  var cacheValue = null;
   try {
-    var cacheValue=wx.getStorageSync(key);
+    cacheValue = wx.getStorageSync(key.toString());
   } catch (e) {
-    console.log("getCache---------------------"+e)
+    console.log("getCache---------------------" + e)
   }
   return cacheValue;
 };

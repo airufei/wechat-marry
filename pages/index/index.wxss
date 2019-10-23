@@ -119,22 +119,26 @@
   font-size: 28rpx;
 }
 .like_btn {
-    width: 180rpx;
+    width: 150rpx;
     height: 60rpx;
     font-size: 28rpx;
     line-height: 60rpx;
     background: #CD96CD;
+    text-align: center;
     float: right;
+    border-radius: 10rpx;
     color: white
 }
 .comment_btn {
-    width: 180rpx;
+    width: 150rpx;
     height: 60rpx;
     margin-left: 5px;
     margin-right: 5px;
     font-size: 28rpx;
     line-height: 60rpx;
+    text-align: center;
     float: right;
     background: #CD96CD;
+    border-radius: 10rpx;
     color: white
 }

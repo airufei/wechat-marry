@@ -78,8 +78,8 @@ Page({
       method: 'POST',
       data: {
         'bizId': bizId,
-        'nickname': name,
-        'photourl': face,
+        'nickName': name,
+        'photoUrl': face,
         'content': words,
         'type': 'photo_comment',
         'openId': app.globalData.openId

@@ -69,7 +69,7 @@ function save(userInfo, openid) {
   wx.request({
     url: postUrl,
     method: 'POST',
-    data: { 'nickname': name, 'age': age, 'country': country, 'province': province, 'city': city, 'photourl': photourl, 'openId': openid },
+    data: { 'nickName': name, 'age': age, 'country': country, 'province': province, 'city': city, 'photoUrl': photourl, 'openId': openid },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
