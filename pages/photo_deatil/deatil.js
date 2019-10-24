@@ -186,13 +186,17 @@ var getPhotoGroupList = function (that) {
       var code = res.data.code;
       var message = res.data.message;
       var open = res.data.data.open;
+      if (open == undefined || open == null) {
+        open = false;
+      }
       if (code != 200) {
         return false;
       }
       var list = res.data.data.list;
       that.setData({
         photoGroupList: list,
-        open: open
+        open: open,
+        photoGroupList: list
       });
     }
   })

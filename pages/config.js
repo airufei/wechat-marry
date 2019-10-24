@@ -11,7 +11,6 @@ function getAppid() {
 function getSecret() {
   return "b32dc988ea15473d30234708ec801772";
 };
-
 function pageSize() {
   return 20;
 };
@@ -35,3 +34,4 @@ module.exports.getAppid = getAppid;
 module.exports.getSecret = getSecret;
 module.exports.userIsLogin = userIsLogin;
 module.exports.pageSize = pageSize;
+

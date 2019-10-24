@@ -156,7 +156,6 @@ var commitLike= function(that,bizId){
 
 //获取banner图
 var getBannerList = function(that) {
-  var type = "banner_photo"
   var type = "banner_photo";
   type = "ptoto_test";
   wx.request({
@@ -235,7 +234,7 @@ var getMusicList = function() {
 }
 //获取相册列表
 var getPhotoList = function(that, isConcat) {
-  var type = "common_photo"
+  var type = "common_photo";
   type ="ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
@@ -321,7 +320,8 @@ var getAllCommentList = function (that) {
       var list = res.data.data.list;
       that.setData({
         allCommentList: list,
-        isOpenDomm: open
+        isOpenDomm: open,
+        allCommentList: list
       });
     }
   })
