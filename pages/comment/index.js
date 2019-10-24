@@ -2,7 +2,7 @@ var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
 var pageNo = 1;
-var pageSize = 10;
+var pageSize = common.pageSize();
 var totalCount = 0;
 Page({
   data: {

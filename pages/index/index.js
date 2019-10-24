@@ -2,10 +2,12 @@ var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
 var pageNo = 1;
-var pageSize = 10;
+var pageSize = common.pageSize();
 var musicList = null;
 var musicUrl = null;
 var musicTitle = null;
+var timer; // 计时器
+var isOpenDomm=true;
 Page({
   data: {
     isPlayingMusic: true,
@@ -18,16 +20,31 @@ Page({
     var that = this;
     that.setData({
       photoList: [],
+      allCommentList:[],
+      isOpenDomm: isOpenDomm,
     })
     var isConcat = false;
     getPhotoList(that, isConcat);
     getBannerList(that);
     musicPlay('first');
+    getSetTimeoutCommentList(that);//彈幕
   },
   //长按切换歌曲
   handleLongPress: function(e) {
     var that = this;
     musicPlay('change');
+  },
+  stopOrSatrt: function(){
+    var that = this;
+    if (isOpenDomm)
+    {
+      isOpenDomm=false;
+    }else
+    {
+      isOpenDomm = true;
+      getSetTimeoutCommentList(that);//彈幕
+    }
+    console.log("开启关闭弹幕=" + isOpenDomm);
   },
   //音乐暂停、启动
   play: function(event) {
@@ -66,8 +83,9 @@ Page({
   toDetailView: function(e) {
     var id = e.currentTarget.dataset.id; //123
     var url = e.currentTarget.dataset.url;
+    var name = e.currentTarget.dataset.name;
     wx.navigateTo({
-      url: '../photo_deatil/deatil?id=' + id + '&url=' + url + '&name=' + url,
+      url: '../photo_deatil/deatil?id=' + id + '&url=' + url,
     })
   },
   btnLike: function(e) {
@@ -139,6 +157,8 @@ var commitLike= function(that,bizId){
 //获取banner图
 var getBannerList = function(that) {
   var type = "banner_photo"
+  var type = "banner_photo";
+  type = "ptoto_test";
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
@@ -216,6 +236,7 @@ var getMusicList = function() {
 //获取相册列表
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo"
+  type ="ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
   });
@@ -254,6 +275,57 @@ var getPhotoList = function(that, isConcat) {
     }
   })
 };
+
+var doomPageNo=1;
+//定时刷新弹幕
+var getSetTimeoutCommentList = function (that) {
+  timer = setTimeout(function () {
+    if (!isOpenDomm) {
+      console.log("----关闭弹幕3----");
+      return;
+    }
+    console.log("----刷新弹幕1----" + doomPageNo);
+    getSetTimeoutCommentList(that);
+    getAllCommentList(that);
+    doomPageNo = doomPageNo+1;
+    console.log("----刷新弹幕2----" + doomPageNo);
+  }, 15000);
+}
+//获取照片评论
+var getAllCommentList = function (that) {
+  wx.request({
+    url: serverUrl + '/msg/getList',
+    method: 'POST',
+    data: {
+      "pageNo": doomPageNo,
+      "pageSize": 10,
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      var message = res.data.message;
+      var open = res.data.data.open;
+      if (open==undefined||open==null)
+      {
+        open=false;
+      }
+      if (!open){
+        isOpenDomm = open;
+      }
+      if (code != 200) {
+        doomPageNo = 1;
+        return false;
+      }
+      var list = res.data.data.list;
+      that.setData({
+        allCommentList: list,
+        isOpenDomm: open
+      });
+    }
+  })
+}
 
 //存储本地缓存
 var saveCache = function(key, value) {

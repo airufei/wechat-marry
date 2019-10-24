@@ -1,22 +1,26 @@
 <view class="container">
-  <view wx:if="{{music_url}}">
-    <view wx:if="{{isPlayingMusic}}">
-      <view class="background_music" bindtap="play">
-        <image src="/images/music_icon.png" class="musicImg music_icon" />
-        <image src="/images/music_play.png" bindlongpress="handleLongPress" class="music_play pauseImg" />
-      </view>
-    </view>
-    <view wx:else>
-      <view class="background_music" bindtap="play">
-        <image src="/images/music_icon.png" class="musicImg" />
-        <image src="/images/music_play.png" class="music_play playImg" />
-      </view>
+  <view wx:if="{{isPlayingMusic}}">
+    <view class="background_music" bindtap="play">
+      <image src="/images/music_icon.png" class="musicImg music_icon" />
+      <image src="/images/music_play.png" bindlongpress="handleLongPress" class="music_play pauseImg" />
     </view>
   </view>
+  <view wx:else>
+    <view class="background_music" bindtap="play">
+      <image src="/images/music_icon.png" class="musicImg" />
+      <image src="/images/music_play.png" class="music_play playImg" />
+    </view>
+  </view>
+
+  <!-- 弹幕 -->
+  <view class="background_domm" bindtap="stopOrSatrt">
+    <image src="/images/timg000.png" class="dommImg" />
+  </view>
+
   <swiper current='0' indicator-dots="true" class='banner_style' autoplay="true" interval="2600" duration="1200">
     <block wx:for="{{bannerList}}" wx:key="{{index}}">
       <swiper-item>
-        <image src="{{item.url}}" class="banner_image_style" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView" mode="aspectFill" />
+        <image src="{{item.url}}" class="banner_image_style" bindtap="toDetailView" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" mode="aspectFill" />
       </swiper-item>
     </block>
   </swiper>
@@ -27,11 +31,18 @@
     </view>
     <view class="todeatil">
       <view class="comment_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView">{{item.commentCount}}评</view>
-      <view class="like_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" data-likecount="{{item.likeCount}}"  bindtap="btnLike">{{item.likeCount}}赞</view>
+      <view class="like_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" data-likecount="{{item.likeCount}}" bindtap="btnLike">{{item.likeCount}}赞</view>
     </view>
   </view>
   <view wx:if="{{bottom_line}}">
     <view class="bottom_line"></view>
   </view>
   <view class="bottom_msg">{{bottom_msg}}</view>
+  <view wx:if="{{isOpenDomm}}" class="doommview">
+    <block wx:for="{{allCommentList}}" wx:key="id">
+      <text class="aon" style="animation: first {{item.time}}s linear forwards;top:{{item.top}}%;color:{{item.color}};">
+            {{item.nickName}}:{{item.content}}
+        </text>
+    </block>
+  </view>
 </view>

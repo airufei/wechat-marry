@@ -11,3 +11,8 @@ page {
   justify-content: center;
   align-items: center;
 }
+.confirm-btn {
+ background:#FFF0F5;
+     font-size: 36rpx;
+     color: #CD96CD;
+}

@@ -1,57 +1,57 @@
 var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
-var pageNo=1;
-var pageSize = 10;
-var bizId=null;
-var totalCount=0;
+var pageNo = 1;
+var pageSize = common.pageSize();
+var bizId = null;
+var totalCount = 0;
 Page({
-    onLoad: function(options) {
-      bizId = options.id;//123
-      var url = options.url;
-      var name = options.name;
-      pageNo = 1;
-      console.log(bizId + "-----------------" + url);
-      common.userIsLogin();
-      wx.startPullDownRefresh;
-      var that = this;
-      that.setData({
-        totalCount: totalCount,
-        photoCommentList: [],
-        bottom_line: false,
-        bg_img_url: url,
-        bg_img_name: name
-      })
-      var isConcat = false;
-      getPhotoCommentList(that, isConcat);
-    },
-    bindKeyInput: function (e) {
-    this.setData({
-      inputValue: e.detail.value
-    })
-    },
-  /**
-* 页面相关事件处理函数--监听用户下拉动作
-*/
-  onPullDownRefresh: function () {
+  onLoad: function(options) {
+    bizId = options.id; //123
+    var url = options.url;
+    pageNo = 1;
+    console.log("photoId-----------------" + bizId);
+    common.userIsLogin();
+    wx.startPullDownRefresh;
     var that = this;
-    pageNo =1;
+    that.setData({
+      totalCount: totalCount,
+      photoCommentList: [],
+      bottom_line: false,
+      open: true,
+      bg_img_url: url,
+    })
     var isConcat = false;
     getPhotoCommentList(that, isConcat);
   },
-  
- 
+  bindKeyInput: function(e) {
+    var value = e.detail.value;
+    this.setData({
+      inputValue: value
+    });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    var that = this;
+    pageNo = 1;
+    var isConcat = false;
+    getPhotoCommentList(that, isConcat);
+  },
+
+
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
     var that = this;
-    pageNo = pageNo+1;
+    pageNo = pageNo + 1;
     var isConcat = true;
     getPhotoCommentList(that, isConcat);
   },
   //提交评论
-  photoComment: function () {
+  photoComment: function() {
     var that = this;
     //留言内容不是空值
     var userInfo = app.globalData.userInfo;
@@ -99,7 +99,7 @@ Page({
           return false;
         }
         pageNo = 1;
-        var isConcat=false;
+        var isConcat = false;
         getPhotoCommentList(that, isConcat);
       }
     })
@@ -111,7 +111,7 @@ Page({
 });
 
 //获取照片评论
-var getPhotoCommentList = function (that,isConcat) {
+var getPhotoCommentList = function(that, isConcat) {
   var type = "photo_comment"
   that.setData({
     bottom_msg: "加载中..."
@@ -119,28 +119,37 @@ var getPhotoCommentList = function (that,isConcat) {
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
-    data: { "pageNo": pageNo, "pageSize": pageSize, "type": type, "bizId": bizId},
+    data: {
+      "pageNo": pageNo,
+      "pageSize": pageSize,
+      "type": type,
+      "bizId": bizId
+    },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
       totalCount = res.data.data.totalCount;
+      var open = res.data.data.open;
       if (totalCount == null || totalCount == undefined) {
         totalCount = 0;
+      }
+      if (open == undefined || open == null) {
+        open = false;
       }
       that.setData({
         totalCount: totalCount,
         bottom_msg: "没有更多评论了,你说几句呗...",
         bottom_line: true,
+        open: open,
       });
       if (code != 200) {
         return false;
       }
       var list = res.data.data.list;
-      if (isConcat)
-      {
+      if (isConcat) {
         list = that.data.photoCommentList.concat(res.data.data.list);
         that.setData({
           bottom_msg: "加载更多",
@@ -153,3 +162,38 @@ var getPhotoCommentList = function (that,isConcat) {
     }
   })
 }
+
+//大于当前Id的相册
+var getPhotoGroupList = function (that) {
+  var type = "common_photo";
+  type = "ptoto_test";
+  that.setData({
+    bottom_msg: "加载中..."
+  });
+  wx.request({
+    url: serverUrl + '/photo/getList',
+    method: 'POST',
+    data: {
+      "pageNo": pageNo,
+      "pageSize": pageSize,
+      "type": type,
+      'id': bizId
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      var message = res.data.message;
+      var open = res.data.data.open;
+      if (code != 200) {
+        return false;
+      }
+      var list = res.data.data.list;
+      that.setData({
+        photoGroupList: list,
+        open: open
+      });
+    }
+  })
+};
