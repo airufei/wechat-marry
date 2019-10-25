@@ -36,14 +36,22 @@ Page({
   },
   stopOrSatrt: function(){
     var that = this;
+    var message="";
     if (isOpenDomm)
     {
       isOpenDomm=false;
+      message = "已关闭弹幕";
     }else
     {
       isOpenDomm = true;
+      message = "已开启弹幕";
       getSetTimeoutCommentList(that);//彈幕
     }
+    wx.showModal({
+      title: '提示',
+      content: message,
+      showCancel: false
+    })
     console.log("开启关闭弹幕=" + isOpenDomm);
   },
   //音乐暂停、启动
@@ -90,9 +98,12 @@ Page({
   },
   btnLike: function(e) {
     var that = this;
-    var bizId = e.currentTarget.dataset.id; //123
+    var bizId = e.target.dataset.id; //123
+    var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
+    var index = e.target.dataset.index;
     var key = openId + bizId;
+    var btnLike = 'photoList[' + index+'].likeCount';
     var cache = getCache(key);
     if (cache != null && cache != undefined && cache.length>0) {
       wx.showModal({
@@ -103,6 +114,9 @@ Page({
     } else {
       saveCache(key,'has_kile');
       commitLike(that, bizId);
+      this.setData({
+        [btnLike]: likecount + 1
+      });
     }
   },
 });
@@ -124,7 +138,7 @@ var commitLike= function(that,bizId){
     method: 'POST',
     data: {
       'bizId': bizId,
-      'likeCount': likeCount,
+      'likeCount': 1,
       'nickName': name,
       'photoUrl': face,
       'type': 'photo_like',
@@ -229,10 +243,12 @@ var getMusicList = function() {
         return false;
       }
       musicList = res.data.data.list;
+      console.log("----关闭弹幕3----" + musicList);
     }
   });
 }
-//获取相册列表
+
+//获取相册列表  "https://rufei.cn/pic/music/e4ed02883b904d228b571cdffa4a6781.mp3"
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo";
   type ="ptoto_test";
@@ -290,6 +306,7 @@ var getSetTimeoutCommentList = function (that) {
     console.log("----刷新弹幕2----" + doomPageNo);
   }, 15000);
 }
+
 //获取照片评论
 var getAllCommentList = function (that) {
   wx.request({
