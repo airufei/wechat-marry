@@ -1,0 +1,17 @@
+
+  <view class="bg">
+  <view class="table_center">
+    <view class="content_center">
+    {{invitation.bridegRoom}} & {{invitation.bride}}
+    </view>
+    <view class="content_left">
+    邀请您于{{invitation.oldTime}}({{invitation.newTime}})在{{invitation.hostel}}参加我们的婚礼。
+    </view>
+     <view class="content_left">
+   地址：{{invitation.adress}}
+    </view>
+     <view class="content_center">
+     {{invitation.remark}}
+    </view>
+    </view>
+</view>

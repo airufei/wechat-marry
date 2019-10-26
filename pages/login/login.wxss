@@ -5,14 +5,15 @@ page {
 }
 
 .content1 {
-  background: #CD96CD;
+  background-image: url(https://rufei.cn/pic/marry/1173.jpg);
+  background-repeat:no-repeat; background-size:100% 100%;-moz-background-size:100% 100%;
   display: flex;
   height: 100%;
   justify-content: center;
   align-items: center;
 }
 .confirm-btn {
- background:#FFF0F5;
+ background:#FFFAF0;
      font-size: 36rpx;
-     color: #CD96CD;
+     color: #EE3A8C;
 }

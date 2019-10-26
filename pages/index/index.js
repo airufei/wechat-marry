@@ -78,6 +78,7 @@ Page({
     getPhotoList(that, isConcat);
   },
 
+
   /**
    * 页面上拉触底事件的处理函数
    */
@@ -195,7 +196,6 @@ var getBannerList = function(that) {
     }
   })
 }
-
 //播放音乐
 var musicPlay = function(type) {
   //设置第一次数据
@@ -216,13 +216,26 @@ var musicPlay = function(type) {
   if (musicUrl == null || musicUrl == undefined) {
     console.log(type + "播放器 没有播放连接=" + musicUrl);
   }
-  wx.playBackgroundAudio({
-    dataUrl: musicUrl,
-    title: musicTitle,
-    coverImgUrl: ''
-  })
+  newMusicPlayer(musicUrl, musicTitle);
 }
-
+//音乐播放器
+var newMusicPlayer = function (musicUrl, musicTitle)
+{
+  const backgroundAudioManager = wx.getBackgroundAudioManager();
+  backgroundAudioManager.title = musicTitle
+  backgroundAudioManager.coverImgUrl = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572083110925&di=ce6846d1499b8b77d8167458b4f47e2e&imgtype=0&src=http%3A%2F%2Fimg1.gtimg.com%2Ftech%2Fpics%2Fhv1%2F14%2F8%2F2055%2F133628429.jpg'
+  // 设置了 src 之后会自动播放
+  backgroundAudioManager.src = musicUrl;
+  backgroundAudioManager.play();
+  backgroundAudioManager.onPlay(() => {
+    console.log("音乐播放开始");
+  })
+  backgroundAudioManager.onEnded(() => {
+    console.log("音乐播放结束");
+    musicPlay('change');
+    console.log("随机下一首");
+  });
+}
 //获取音乐列表
 var getMusicList = function() {
   var type = "";

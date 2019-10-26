@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/comment/index",
     "pages/login/login",
+    "pages/invitation/invitation",
     "pages/photo_deatil/deatil"
   ],
   "requiredBackgroundModes": [
@@ -25,6 +26,12 @@
         "iconPath": "images/ic_home_normal.png",
         "selectedIconPath": "images/ic_home_select.png",
         "text": "婚纱"
+      },
+      {
+        "pagePath": "pages/invitation/invitation",
+        "iconPath": "images/ic_heart_normal.png",
+        "selectedIconPath": "images/ic_heart_select.png",
+        "text": "邀请函"
       },
       {
         "pagePath": "pages/comment/index",
