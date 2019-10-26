@@ -1,0 +1,21 @@
+<view class="container">
+  <form bindreset="sendMeet">
+    <view class="table_center">
+      <view class="content_center">
+        <input placeholder="在此输入你的姓名" class="send_ipt" bindinput="bindNmaeInput" />
+      </view>
+      <view class="content_center">
+        <input placeholder="在此输入你的手机号" class="send_ipt" bindinput="bindPhoneInput" />
+      </view>
+      <view class="content_center">
+        <input placeholder="在此输入到场人数" class="send_ipt" bindinput="bindPersonCountInput" />
+      </view>
+      <view class="content_center">
+        <input placeholder="在此输入你的备注说明" class="send_ipt" bindinput="bindRemarkInput" />
+      </view>
+      <view class="content_center">
+        <button form-type="reset" class="send_btn">提交</button>
+      </view>
+    </view>
+  </form>
+</view>

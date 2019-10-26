@@ -4,6 +4,7 @@
     "pages/comment/index",
     "pages/login/login",
     "pages/invitation/invitation",
+    "pages/meet/meet",
     "pages/photo_deatil/deatil"
   ],
   "requiredBackgroundModes": [
@@ -29,9 +30,15 @@
       },
       {
         "pagePath": "pages/invitation/invitation",
-        "iconPath": "images/ic_heart_normal.png",
-        "selectedIconPath": "images/ic_heart_select.png",
+        "iconPath": "images/ic_nav_normal.png",
+        "selectedIconPath": "images/ic_nav_select.png",
         "text": "邀请函"
+      },
+      {
+        "pagePath": "pages/meet/meet",
+        "iconPath": "images/meme-normal@2x.png",
+        "selectedIconPath": "images/me-selected@2x.png",
+        "text": "参会"
       },
       {
         "pagePath": "pages/comment/index",

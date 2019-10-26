@@ -14,6 +14,6 @@ page {
 }
 .confirm-btn {
  background:#FFFAF0;
-     font-size: 36rpx;
+     font-size: 32rpx;
      color: #EE3A8C;
 }

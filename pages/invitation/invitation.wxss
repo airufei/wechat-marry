@@ -15,7 +15,7 @@ page {
 
 .table_center{
 width: 88%;
-margin:  50% 6% 40% 6%;
+margin:  45% 6% 40% 6%;
 }
 
 .content_center{
@@ -30,5 +30,18 @@ margin:  50% 6% 40% 6%;
   margin-left: 2%;
  text-align: left;
  border-bottom: 1rpx dashed #999d9c
+}
+.content_right{
+  width: 95%;
+  margin-top: 5%;
+ }
+.send_btn {
+    width: 200rpx;
+    height: 60rpx;
+    font-size: 32rpx;
+    line-height: 60rpx;
+    background:#FFFAF0;
+    color: #EE3A8C;
+    float: right;
 }
 
