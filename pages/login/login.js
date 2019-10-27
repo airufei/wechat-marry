@@ -50,6 +50,8 @@ function getOpenId(code, userInfo) {
     },
     success: function (res) {
       var openid = res.data.openid; //返回openid
+      var sessionKey = res.data.session_key; //返回session_key
+      app.globalData.sessionKey = sessionKey;
       app.globalData.openId = openid;
       save(userInfo, openid)
       console.log("opendid:====" + openid);

@@ -26,7 +26,7 @@
         "pagePath": "pages/index/index",
         "iconPath": "images/ic_home_normal.png",
         "selectedIconPath": "images/ic_home_select.png",
-        "text": "婚纱"
+        "text": "甜蜜婚纱"
       },
       {
         "pagePath": "pages/invitation/invitation",
@@ -35,16 +35,16 @@
         "text": "邀请函"
       },
       {
-        "pagePath": "pages/meet/meet",
-        "iconPath": "images/meme-normal@2x.png",
-        "selectedIconPath": "images/me-selected@2x.png",
-        "text": "参会"
-      },
-      {
         "pagePath": "pages/comment/index",
         "iconPath": "images/ic_heart_normal.png",
         "selectedIconPath": "images/ic_heart_select.png",
-        "text": "祝福"
+        "text": "好友祝福"
+      },
+      {
+        "pagePath": "pages/meet/meet",
+        "iconPath": "images/meme-normal@2x.png",
+        "selectedIconPath": "images/me-selected@2x.png",
+        "text": "我要参加"
       }
     ]
   },

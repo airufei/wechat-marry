@@ -6,7 +6,14 @@ Page({
     var that = this;
     getInvitation(that);
   },
-
+  btnToMeet: function(){
+    console.log('我要参加', '点击---btnToMeet----')
+    wx.switchTab({
+      url: '../meet/meet'
+    });
+    console.log('我要参加', '点击---btnToMeet--end--')
+    return;
+  }
 });
 //获取邀请函
 function getInvitation(that) {

@@ -2,7 +2,7 @@ var xmf_server_url_pro = 'https://rufei.cn';
 var xmf_server_url_dev = 'http://localhost:8082';
 var app = getApp();
 function getserverUrl() {
-  return xmf_server_url_dev + "/wechat/";
+  return xmf_server_url_pro + "/wechat/";
 }
 function getAppid() {
   return "wxf25e90199003dbdb";

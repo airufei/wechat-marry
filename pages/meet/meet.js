@@ -28,6 +28,16 @@ Page({
   sendMeet: function (e) {
     var that = this
     sendMeet(that);
+  },
+  getWxPhone: function (e) {
+    var message=e.detail.errMsg;
+    var iv= e.detail.iv;
+    var encryptedData = e.detail.encryptedData;
+    var sessionkey=app.globalData.sessionKey;
+    var that = this;
+    if (e.detail.errMsg == "getPhoneNumber:ok") {
+      getWxEnPhone(that, encryptedData, iv, sessionkey);
+    }
   }
 });
 //参会登记信息
@@ -59,7 +69,7 @@ function sendMeet(that) {
   if (!checkNum(num)) {
     wx.showModal({
       title: '提示',
-      content: '只能数字',
+      content: '到场人数只能数字',
       showCancel: false
     })
     return false;
@@ -104,6 +114,35 @@ function sendMeet(that) {
   })
 };
 
+//通过解密获取手机号
+function getWxEnPhone(that, ency, iv, sessionkey) {
+  var postUrl = serverUrl + 'user/getUserPhone';
+  wx.request({
+    url: postUrl,
+    method: 'POST',
+    data: {
+      "encrypdata": ency,
+      "ivdata": iv,
+      "sessionkey": sessionkey
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      var data = res.data.data;
+      if (code != 200) {
+        return false;
+      }
+      if (data == null || data==undefined) {
+        data="";
+      }
+      that.setData({
+        wxPhone: data
+      })
+    }
+  })
+};
 
 function checkPhone(phone) {
   const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;

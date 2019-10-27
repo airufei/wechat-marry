@@ -14,7 +14,7 @@
      {{invitation.remark}}
     </view>
      <view class="content_right">
-     <button form-type="reset" class="send_btn">我要参加</button> 
+     <button  bindtap="btnToMeet"  class="send_btn">我要参加</button> 
     </view>
     </view>
 </view>
