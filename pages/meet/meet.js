@@ -132,13 +132,18 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
     success: function (res) {
       var code = res.data.code;
       var data = res.data.data;
-      console.log("通过解密获取手机号 data=" + res.data);
+      console.log("通过解密获取手机号 data=" + data);
       if (code != 200) {
         return false;
       }
       if (data == null || data==undefined) {
         data="";
       }
+      wx.showModal({
+        title: '提示',
+        content: data,
+        showCancel: false
+      })
       that.setData({
         wxPhone: data
       })
