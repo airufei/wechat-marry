@@ -1,6 +1,7 @@
 var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
+var selectIndex=0;
 Page({
   data: {
     personList: [{
@@ -33,7 +34,7 @@ Page({
       },
       {
         "name": "其他",
-        "value": -1
+        "value": 10
       }
     ],
     index: 0,
@@ -43,6 +44,7 @@ Page({
   },
   bindPickerChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
+    selectIndex = e.detail.value;
     this.setData({
       index: e.detail.value,
     })
@@ -98,7 +100,7 @@ function sendMeet(that) {
   var face = user.avatarUrl;
   var userName = that.data.userName;
   var phone = that.data.phone;
-  var num = that.data.num;
+  var num = personList[selectIndex].value;
   var remark = that.data.remark;
   if (!checkName(userName)) {
     wx.showModal({
@@ -108,10 +110,10 @@ function sendMeet(that) {
     })
     return false;
   }
-  if (!checkNum(num)) {
+  if (num == null || num == undefined || num<=0) {
     wx.showModal({
       title: '提示',
-      content: '到场人数只能数字',
+      content: '请选择到场人数',
       showCancel: false
     })
     return false;
