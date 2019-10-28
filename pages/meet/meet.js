@@ -2,38 +2,80 @@ var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
 Page({
+  data: {
+    personList: [{
+        "name": "请选择",
+        "value": 0
+      },
+      {
+        "name": "1人",
+        "value": 1
+      },
+      {
+        "name": "2人",
+        "value": 2
+      },
+      {
+        "name": "4人",
+        "value": 4
+      },
+      {
+        "name": "5人",
+        "value": 5
+      },
+      {
+        "name": "6人",
+        "value": 6
+      },
+      {
+        "name": "7人",
+        "value": 7
+      },
+      {
+        "name": "其他",
+        "value": -1
+      }
+    ],
+    index: 0,
+  },
   onLoad: function(options) {
     common.userIsLogin();
   },
-  bindNmaeInput: function(e){
+  bindPickerChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      index: e.detail.value,
+    })
+  },
+  bindNmaeInput: function(e) {
     this.setData({
       userName: e.detail.value
     })
   },
-  bindPhoneInput: function (e) {
+  bindPhoneInput: function(e) {
     this.setData({
       phone: e.detail.value
     })
   },
-  bindPersonCountInput: function (e) {
+  bindPersonCountInput: function(e) {
     this.setData({
       num: e.detail.value
     })
   },
-  bindRemarkInput: function (e) {
+  bindRemarkInput: function(e) {
     this.setData({
       remark: e.detail.value
     })
   },
-  sendMeet: function (e) {
+  sendMeet: function(e) {
     var that = this
     sendMeet(that);
   },
-  getWxPhone: function (e) {
-    var message=e.detail.errMsg;
-    var iv= e.detail.iv;
+  getWxPhone: function(e) {
+    var message = e.detail.errMsg;
+    var iv = e.detail.iv;
     var encryptedData = e.detail.encryptedData;
-    var sessionkey=app.globalData.sessionKey;
+    var sessionkey = app.globalData.sessionKey;
     var that = this;
     if (e.detail.errMsg == "getPhoneNumber:ok") {
       getWxEnPhone(that, encryptedData, iv, sessionkey);
@@ -85,7 +127,7 @@ function sendMeet(that) {
   wx.request({
     url: postUrl,
     method: 'POST',
-    data: { 
+    data: {
       'nickName': name,
       'photoUrl': face,
       'phone': phone,
@@ -97,12 +139,11 @@ function sendMeet(that) {
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
-      if (message == null || message==undefined)
-      {
-        message="出现错误了，不好意思";
+      if (message == null || message == undefined) {
+        message = "出现错误了，不好意思";
       }
       wx.showModal({
         title: '提示',
@@ -129,21 +170,16 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var data = res.data.data;
       console.log("通过解密获取手机号 data=" + data);
       if (code != 200) {
         return false;
       }
-      if (data == null || data==undefined) {
-        data="";
+      if (data == null || data == undefined) {
+        data = "";
       }
-      wx.showModal({
-        title: '提示',
-        content: data,
-        showCancel: false
-      })
       that.setData({
         wxPhone: data
       })
@@ -160,11 +196,12 @@ function checkName(userName) {
   if (userName == null || userName == undefined) {
     return false;
   }
-  if (userName.length<2|| userName>=20) {
+  if (userName.length < 2 || userName >= 20) {
     return false;
   }
   return true;
 }
+
 function checkNum(phone) {
   const reg = /^[0-9]+$/;
   return reg.test(phone);

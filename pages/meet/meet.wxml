@@ -8,8 +8,14 @@
         <input placeholder="请输入你的手机号" value="{{wxPhone}}" class="send_ipt" maxlength="11" bindinput="bindPhoneInput" />
         <button class="getphone_btn" open-type='getPhoneNumber' bindgetphonenumber="getWxPhone">获取</button>
       </view>
-      <view class="content_center">
-        <input placeholder="请输入到场人数" class="send_ipt" maxlength="2" bindinput="bindPersonCountInput" />
+      <view class="content_center_select">
+        <view class="section">
+          <picker bindchange="bindPickerChange" value="index" range="{{personList}}" range-key="name">
+            <view class="picker">
+              到场人数：{{personList[index].name}}
+            </view>
+          </picker>
+        </view>
       </view>
       <view class="content_center">
         <input placeholder="备注说明" class="send_ipt" maxlength="50" bindinput="bindRemarkInput" />
