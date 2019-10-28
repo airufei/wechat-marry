@@ -17,7 +17,6 @@ Page({
       wx.switchTab({
         url: '../index/index'
       });
-      console.log('app.globalData.userInfo', app.globalData.userInfo)
     } else {
       console.log('fail', '获取用户信息失败')
       wx.showModal({

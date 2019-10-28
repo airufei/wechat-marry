@@ -117,6 +117,7 @@ function sendMeet(that) {
 //通过解密获取手机号
 function getWxEnPhone(that, ency, iv, sessionkey) {
   var postUrl = serverUrl + 'user/getUserPhone';
+  console.log("通过解密获取手机号=" + sessionkey);
   wx.request({
     url: postUrl,
     method: 'POST',
@@ -131,6 +132,7 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
     success: function (res) {
       var code = res.data.code;
       var data = res.data.data;
+      console.log("通过解密获取手机号 data=" + res.data);
       if (code != 200) {
         return false;
       }
