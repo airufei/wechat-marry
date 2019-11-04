@@ -15,7 +15,12 @@ Page({
     music_url: true,
   },
   onLoad: function(options) {
+    var user=app.globalData.userInfo;
     common.userIsLogin();
+    if (user == null || user==undefined)
+    {
+return false;
+    }
     wx.startPullDownRefresh;
     var that = this;
     that.setData({

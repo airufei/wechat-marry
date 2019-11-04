@@ -57,6 +57,7 @@ function getOpenId(code, userInfo) {
     }
   })
 };
+
 //保存微信用户到服务器
 function save(userInfo, openid) {
   var user = JSON.parse(userInfo);

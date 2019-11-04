@@ -1,11 +1,11 @@
 <view class="container">
-  <form bindreset="sendMeet" style="width:100%">
+  <form style="width:100%" >
     <view class="table_center">
       <view class="content_center">
-        <input placeholder="请输入你的姓名" class="send_ipt" maxlength="5" bindinput="bindNmaeInput" />
+        <input placeholder="请输入你的姓名" class="send_ipt" value="{{name}}" maxlength="5" bindinput="bindNmaeInput" />
       </view>
       <view class="content_center">
-        <input placeholder="请输入你的手机号" value="{{wxPhone}}" class="send_ipt" maxlength="11" bindinput="bindPhoneInput" />
+        <input placeholder="请输入你的手机号" value="{{phone}}" class="send_ipt" maxlength="11" bindinput="bindPhoneInput" />
         <button class="getphone_btn" open-type='getPhoneNumber' bindgetphonenumber="getWxPhone">获取</button>
       </view>
       <view class="content_center_select">
@@ -18,10 +18,10 @@
         </view>
       </view>
       <view class="content_center">
-        <input placeholder="备注说明" class="send_ipt" maxlength="50" bindinput="bindRemarkInput" />
+        <input placeholder="备注说明" class="send_ipt" value="{{remark}}" maxlength="50" bindinput="bindRemarkInput" />
       </view>
       <view class="content_center">
-        <button form-type="reset" class="send_btn">提交</button>
+        <button form-type="submit" bindtap="sendMeet" class="send_btn">提交</button>
       </view>
     </view>
   </form>

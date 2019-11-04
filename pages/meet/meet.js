@@ -1,7 +1,7 @@
 var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
-var selectIndex=0;
+var selectIndex = 0;
 Page({
   data: {
     personList: [{
@@ -37,7 +37,10 @@ Page({
         "value": 10
       }
     ],
-    index: 0,
+    phone: "",
+    remark: "",
+    name: "",
+    index: 0
   },
   onLoad: function(options) {
     common.userIsLogin();
@@ -100,7 +103,7 @@ function sendMeet(that) {
   var face = user.avatarUrl;
   var userName = that.data.userName;
   var phone = that.data.phone;
-  var num = personList[selectIndex].value;
+  var num = that.data.personList[selectIndex].value;
   var remark = that.data.remark;
   if (!checkName(userName)) {
     wx.showModal({
@@ -110,7 +113,7 @@ function sendMeet(that) {
     })
     return false;
   }
-  if (num == null || num == undefined || num<=0) {
+  if (num == null || num == undefined || num <= 0) {
     wx.showModal({
       title: '提示',
       content: '请选择到场人数',
@@ -151,8 +154,18 @@ function sendMeet(that) {
         title: '提示',
         content: message,
         showCancel: false
-      })
-      return false;
+      });
+      if (code == 200) {
+        that.setData({
+          phone: "",
+          remark: "",
+          name: "",
+          index: 0
+        });
+        wx.switchTab({
+          url: '../index/index'
+        });
+      }
     }
   })
 };
@@ -183,7 +196,7 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
         data = "";
       }
       that.setData({
-        wxPhone: data
+        phone: data
       })
     }
   })
