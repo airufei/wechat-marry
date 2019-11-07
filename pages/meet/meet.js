@@ -1,7 +1,8 @@
 var app = getApp();
 var common = require("../config.js");
 var serverUrl = common.getserverUrl();
-var selectIndex = 0;
+var num = 0;
+var type=0;
 Page({
   data: {
     personList: [{
@@ -17,6 +18,10 @@ Page({
         "value": 2
       },
       {
+        "name": "3人",
+        "value": 3
+      },
+      {
         "name": "4人",
         "value": 4
       },
@@ -25,56 +30,74 @@ Page({
         "value": 5
       },
       {
-        "name": "6人",
-        "value": 6
-      },
-      {
-        "name": "7人",
-        "value": 7
-      },
-      {
         "name": "其他",
-        "value": 10
+        "value": 6
       }
+    ],
+    typeList: [{
+      "name": "请选择",
+      "value": 0
+    },
+    {
+      "name": "参加男方宴席",
+      "value": 1
+    },
+    {
+      "name": "参加女方宴席",
+      "value": 2
+    },
+    {
+      "name": "都要参加",
+      "value": 3
+    }
     ],
     phone: "",
     remark: "",
     name: "",
-    index: 0
+    num: 0,
+    type:0,
   },
   onLoad: function(options) {
     common.userIsLogin();
+    var that = this;
+    getInvitation(that);
+    getMeetDataByOpenId(that);
   },
   bindPickerChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
-    selectIndex = e.detail.value;
+    num = e.detail.value;
     this.setData({
-      index: e.detail.value,
+      num: e.detail.value,
     })
   },
-  bindNmaeInput: function(e) {
+  bindTypePickerChange: function (e) {
+    console.log('type 发送选择改变，携带值为', e.detail.value)
+    type = e.detail.value;
     this.setData({
-      userName: e.detail.value
+      type: e.detail.value,
     })
   },
-  bindPhoneInput: function(e) {
-    this.setData({
-      phone: e.detail.value
-    })
-  },
-  bindPersonCountInput: function(e) {
-    this.setData({
-      num: e.detail.value
-    })
-  },
-  bindRemarkInput: function(e) {
-    this.setData({
-      remark: e.detail.value
-    })
-  },
-  sendMeet: function(e) {
-    var that = this
-    sendMeet(that);
+  formSubmit: function(e) {
+    var userName = e.detail.value.userName;
+    var remark = e.detail.value.remark;
+    var phone = e.detail.value.phone;
+    var num = e.detail.value.num;
+    var type = e.detail.value.type;
+    var userInfo = app.globalData.userInfo;
+    var user = JSON.parse(userInfo);
+    var name = user.nickName;
+    var face = user.avatarUrl;
+    var jsonData = {
+      'nickName': name,
+      'photoUrl': face,
+      'phone': phone,
+      'num': num,
+      'type': type,
+      'userName': userName,
+      'remark': remark,
+      'openId': app.globalData.openId
+    }
+    sendMeet(jsonData);
   },
   getWxPhone: function(e) {
     var message = e.detail.errMsg;
@@ -87,60 +110,55 @@ Page({
     }
   }
 });
-//参会登记信息
-function sendMeet(that) {
-  var postUrl = serverUrl + 'meet/save';
-  //留言内容不是空值
-  var userInfo = app.globalData.userInfo;
-  if (userInfo == null || userInfo == undefined) {
+
+//获取参会信息
+function getMeetDataByOpenId(that) {
+  var openId = app.globalData.openId;
+  if (openId == null || openId == undefined) {
     wx.navigateTo({
       url: '../login/login'
     });
     return;
   }
-  var user = JSON.parse(userInfo);
-  var name = user.nickName;
-  var face = user.avatarUrl;
-  var userName = that.data.userName;
-  var phone = that.data.phone;
-  var num = that.data.personList[selectIndex].value;
-  var remark = that.data.remark;
-  if (!checkName(userName)) {
-    wx.showModal({
-      title: '提示',
-      content: '请填写正确姓名',
-      showCancel: false
-    })
-    return false;
-  }
-  if (num == null || num == undefined || num <= 0) {
-    wx.showModal({
-      title: '提示',
-      content: '请选择到场人数',
-      showCancel: false
-    })
-    return false;
-  }
-  if (!checkPhone(phone)) {
-    wx.showModal({
-      title: '提示',
-      content: '手机号不正确',
-      showCancel: false
-    })
-    return false;
-  }
+  var postUrl = serverUrl + 'meet/getMeeting';
   wx.request({
     url: postUrl,
     method: 'POST',
     data: {
-      'nickName': name,
-      'photoUrl': face,
-      'phone': phone,
-      'num': num,
-      'userName': userName,
-      'remark': remark,
-      'openId': app.globalData.openId
+      'openId': openId
     },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function(res) {
+      var code = res.data.code;
+      console.log("获取参会信息=" + res.data.data);
+      var message = res.data.message;
+      var userName = res.data.data.userName;
+      var remark = res.data.data.remark;
+      var phone = res.data.data.phone;
+      var num = res.data.data.num;
+      var type = res.data.data.type;
+      if (code == 200) {
+        that.setData({
+          phone: phone,
+          remark: remark,
+          name: userName,
+          num: num,
+          type: type,
+        });
+      }
+    }
+  })
+}
+
+//参会登记信息
+function sendMeet(jsonData) {
+  var postUrl = serverUrl + 'meet/save';
+  wx.request({
+    url: postUrl,
+    method: 'POST',
+    data: jsonData,
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
@@ -155,17 +173,6 @@ function sendMeet(that) {
         content: message,
         showCancel: false
       });
-      if (code == 200) {
-        that.setData({
-          phone: "",
-          remark: "",
-          name: "",
-          index: 0
-        });
-        wx.switchTab({
-          url: '../index/index'
-        });
-      }
     }
   })
 };
@@ -202,22 +209,27 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
   })
 };
 
-function checkPhone(phone) {
-  const reg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
-  return reg.test(phone);
-}
+//获取邀请函
+function getInvitation(that) {
+  var postUrl = serverUrl + 'invit/getInvitation';
+  wx.request({
+    url: postUrl,
+    method: 'POST',
+    data: {
 
-function checkName(userName) {
-  if (userName == null || userName == undefined) {
-    return false;
-  }
-  if (userName.length < 2 || userName >= 20) {
-    return false;
-  }
-  return true;
-}
-
-function checkNum(phone) {
-  const reg = /^[0-9]+$/;
-  return reg.test(phone);
-}
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      var data = res.data.data;
+      if (code != 200) {
+        return false;
+      }
+      that.setData({
+        invitation: data
+      })
+    }
+  })
+};

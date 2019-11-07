@@ -5,16 +5,16 @@
     {{invitation.bridegRoom}} & {{invitation.bride}}
     </view>
     <view class="content_left">
-    邀请您于{{invitation.oldTime}}({{invitation.newTime}})在{{invitation.hostel}}参加我们的婚礼。
+    男方邀请您于农历{{invitation.manOldTime}}({{invitation.manNewTime}})在{{invitation.manHostel}}参加我们的婚礼。
     </view>
      <view class="content_left">
-   地址：{{invitation.adress}}
+    女方邀请您于农历{{invitation.womanOldTime}}({{invitation.womanNewTime}})在{{invitation.womanHostel}}举行婚礼宴席。
+    </view>
+     <view class="content_left">
+   地址：{{invitation.manAdress}}
     </view>
      <view class="content_center">
      {{invitation.remark}}
-    </view>
-     <view class="content_right">
-     <button  bindtap="btnToMeet"  class="send_btn">我要参加</button> 
     </view>
     </view>
 </view>
