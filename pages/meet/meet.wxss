@@ -19,32 +19,32 @@ page {
 
 .content_center {
   width: 100%;
-  margin-top: 6%;
+  margin-top: 8%;
   text-align: center;
-  margin-left: 5%;
+  margin-left: 8%;
 }
 
 .btn_content_center {
-  width: 100%;
+  width: 85%;
   margin-top: 6%;
   text-align: center;
 }
 
 .content_center_select {
-  margin-top: 6%;
+  margin-top: 8%;
   text-align: center;
-  margin-left: 5%;
+  margin-left: 8%;
   border: 1rpx solid #cd96cd;
   height: 60rpx;
   line-height: 60rpx;
-  width: 500rpx;
+  width: 450rpx;
   padding: 10rpx;
   background-color: #fff0f5;
   border-radius: 5px;
 }
 
 .send_ipt {
-  width: 500rpx;
+  width: 450rpx;
   padding: 10rpx;
   font-size: 30rpx;
   height: 60rpx;
@@ -59,14 +59,15 @@ page {
   width: 300rpx;
   height: 80rpx;
   line-height: 80rpx;
-  color: white;
+  color: #EE3A8C;
 }
 
 .getphone_btn {
-  width: 110rpx;
+  width: 150rpx;
   height: 70rpx;
   padding: 1rpx;
   line-height: 70rpx;
+  color: #EE3A8C;
 }
 .bottom_remark{
     margin-top: 2%;

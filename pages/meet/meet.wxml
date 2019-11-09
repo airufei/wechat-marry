@@ -1,14 +1,12 @@
 <view class="container">
- <text class="top_remark"> 男方邀请您于农历{{invitation.manOldTime}}({{invitation.manNewTime}})在{{invitation.manHostel}}参加我们的婚礼。</text>
-  <text class="top_remark"> 女方邀请您于农历{{invitation.womanOldTime}}({{invitation.womanNewTime}})在{{invitation.womanHostel}}举行婚礼宴席。</text>
   <form style="width:100%" bindsubmit="formSubmit">
     <view class="table_center">
       <view class="content_center">
         <input placeholder="请输入你的姓名" class="send_ipt" value="{{name}}" name="userName" maxlength="4" />
       </view>
       <view class="content_center">
-        <input placeholder="请输入你的手机号" value="{{phone}}" name="phone" class="send_ipt" maxlength="11" />
-        <button class="getphone_btn" open-type='getPhoneNumber' bindgetphonenumber="getWxPhone">获取</button>
+        <input placeholder="请输入你的手机号" value="{{userPhone}}" name="phone" class="send_ipt" maxlength="11" />
+        <button class="getphone_btn" open-type='getPhoneNumber' bindgetphonenumber="getWxPhone">获取手机</button>
       </view>
        <view class="content_center_select">
         <view class="section">
@@ -32,7 +30,7 @@
         <input placeholder="备注说明" class="send_ipt" value="{{remark}}" maxlength="50" name="remark" />
       </view>
       <view class="btn_content_center">
-        <button form-type="submit" bindtap="sendMeet" type="primary" class="send_btn">提交</button>
+        <button form-type="submit" class="send_btn">提交</button>
       </view>
     </view>
   </form>

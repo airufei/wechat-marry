@@ -7,7 +7,8 @@
     margin-right: 8px;
     padding: 25rpx;
     min-height: 0;
-    overflow: hidden;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
     background-color: #f1f2f7;
     box-shadow:  0 0 20px rgba(190,77,43,.2);
     margin-bottom: 18rpx;

@@ -6,7 +6,7 @@ var pageSize = common.pageSize();
 var musicList = null;
 var musicUrl = null;
 var musicTitle = null;
-var timer; // 计时器
+var timer=null; // 计时器
 var isOpenDomm=true;
 Page({
   data: {
@@ -32,7 +32,22 @@ return false;
     getPhotoList(that, isConcat);
     getBannerList(that);
     musicPlay('first');
-    getSetTimeoutCommentList(that);//彈幕
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var that = this;
+    isOpenDomm=true
+    getSetTimeoutCommentList(that);//弹幕
+  },
+  /**
+  * 生命周期函数--监听页面隐藏
+  */
+  onHide: function () {
+    //写在onHide()中，切换页面或者切换底部菜单栏时关闭定时器。
+    clearInterval(timer);
+    isOpenDomm=false;
   },
   //长按切换歌曲
   handleLongPress: function(e) {
@@ -82,7 +97,6 @@ return false;
     var isConcat = false;
     getPhotoList(that, isConcat);
   },
-
 
   /**
    * 页面上拉触底事件的处理函数
@@ -312,21 +326,18 @@ var getPhotoList = function(that, isConcat) {
 var doomPageNo=1;
 //定时刷新弹幕
 var getSetTimeoutCommentList = function (that) {
-  timer = setTimeout(function () {
-    if (!isOpenDomm) {
-      console.log("----关闭弹幕3----");
-      return;
-    }
-    console.log("----刷新弹幕1----" + doomPageNo);
-    getSetTimeoutCommentList(that);
+  timer=setInterval(function () {
     getAllCommentList(that);
-    doomPageNo = doomPageNo+1;
-    console.log("----刷新弹幕2----" + doomPageNo);
-  }, 15000);
+  }, 10000)
 }
 
 //获取照片评论
 var getAllCommentList = function (that) {
+  if (!isOpenDomm) {
+    console.log("----关闭弹幕3----");
+    return;
+  }
+  console.log("----刷弹幕----"+doomPageNo);
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
@@ -352,6 +363,7 @@ var getAllCommentList = function (that) {
         doomPageNo = 1;
         return false;
       }
+      doomPageNo = doomPageNo + 1;
       var list = res.data.data.list;
       that.setData({
         allCommentList: list,

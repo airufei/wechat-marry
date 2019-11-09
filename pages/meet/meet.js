@@ -60,7 +60,6 @@ Page({
   onLoad: function(options) {
     common.userIsLogin();
     var that = this;
-    getInvitation(that);
     getMeetDataByOpenId(that);
   },
   bindPickerChange: function(e) {
@@ -114,12 +113,7 @@ Page({
 //获取参会信息
 function getMeetDataByOpenId(that) {
   var openId = app.globalData.openId;
-  if (openId == null || openId == undefined) {
-    wx.navigateTo({
-      url: '../login/login'
-    });
-    return;
-  }
+  common.upLog("获取参会信息 openId:" + openId);
   var postUrl = serverUrl + 'meet/getMeeting';
   wx.request({
     url: postUrl,
@@ -132,7 +126,6 @@ function getMeetDataByOpenId(that) {
     },
     success: function(res) {
       var code = res.data.code;
-      console.log("获取参会信息=" + res.data.data);
       var message = res.data.message;
       var userName = res.data.data.userName;
       var remark = res.data.data.remark;
@@ -141,7 +134,7 @@ function getMeetDataByOpenId(that) {
       var type = res.data.data.type;
       if (code == 200) {
         that.setData({
-          phone: phone,
+          userPhone: phone,
           remark: remark,
           name: userName,
           num: num,
@@ -180,7 +173,7 @@ function sendMeet(jsonData) {
 //通过解密获取手机号
 function getWxEnPhone(that, ency, iv, sessionkey) {
   var postUrl = serverUrl + 'user/getUserPhone';
-  console.log("通过解密获取手机号=" + sessionkey);
+  common.upLog("开始获取解密信息 sessionkey：" + sessionkey);
   wx.request({
     url: postUrl,
     method: 'POST',
@@ -194,18 +187,22 @@ function getWxEnPhone(that, ency, iv, sessionkey) {
     },
     success: function(res) {
       var code = res.data.code;
-      var data = res.data.data;
-      console.log("通过解密获取手机号 data=" + data);
-      if (code != 200) {
-        return false;
+      var phone = res.data.data;
+      if (phone == null || phone == undefined) {
+        phone = "";
       }
-      if (data == null || data == undefined) {
-        data = "";
-      }
+      common.upLog("通过解密获取手机号 phone=" + phone);
       that.setData({
-        phone: data
+        userPhone: phone
       })
-    }
+    },
+    fail: (res => {
+      wx.showModal({
+        title: '提示',
+        content: res,
+        showCancel: false
+      });
+    })
   })
 };
 
