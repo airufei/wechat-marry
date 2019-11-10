@@ -61,10 +61,10 @@ Page({
     var face = user.avatarUrl;
     var words = that.data.inputValue;
     if (words == null || words == undefined) {
-      wx.showModal({
-        title: '提示',
-        content: '您还没有填写内容',
-        showCancel: false
+      wx.showToast({
+        title: "没有填写内容",
+        icon: 'success',
+        duration: 2000
       })
       return false;
     }
@@ -85,12 +85,12 @@ Page({
       success: res => {
         var code = res.data.code
         var message = res.data.message
+        wx.showToast({
+          title: message,
+          icon: 'success',
+          duration: 2000
+        })
         if (code != 200) {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-            showCancel: false
-          })
           return false;
         }
         pageNo = 1;

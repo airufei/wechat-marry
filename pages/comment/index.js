@@ -77,12 +77,12 @@ Page({
       success: res => {
         var code = res.data.code
         var message = res.data.message
+        wx.showToast({
+          title: message,
+          icon: 'success',
+          duration: 2000
+        })
         if (code != 200) {
-          wx.showModal({
-            title: '提示',
-            content: res.data.message,
-            showCancel: false
-          })
           return false;
         }
         pageNo = 1;

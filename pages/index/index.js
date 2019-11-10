@@ -54,9 +54,8 @@ Page({
     var id = target.dataset.id; //123
     var url = target.dataset.url;
     var name = target.dataset.name;
-    if (name == null || name.length<=0||name==undefined)
-    {
-      name="飞叔的婚礼小程序";
+    if (name == null || name.length <= 0 || name == undefined) {
+      name = "飞叔的婚礼小程序";
     }
     return {
       title: name,
@@ -64,10 +63,10 @@ Page({
       imageUrl: url, // 分享的封面图
       success: function(res) {
         // 转发成功
-        wx.showModal({
-          title: '提示',
-          content: '感谢分享',
-          showCancel: false
+        wx.showToast({
+          title: '感谢分享',
+          icon: 'success',
+          duration: 2000
         })
       },
       fail: function(res) {
@@ -100,10 +99,10 @@ Page({
       message = "已开启弹幕";
       getSetTimeoutCommentList(that); //彈幕
     }
-    wx.showModal({
-      title: '提示',
-      content: message,
-      showCancel: false
+    wx.showToast({
+      title: message,
+      icon: 'success',
+      duration: 2000
     })
     console.log("开启关闭弹幕=" + isOpenDomm);
   },
@@ -155,15 +154,18 @@ Page({
     var bizId = e.target.dataset.id; //123
     var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
+    if (openId == null) {
+      return;
+    }
     var index = e.target.dataset.index;
     var key = openId + bizId;
     var btnLike = 'photoList[' + index + '].likeCount';
     var cache = getCache(key);
     if (cache != null && cache != undefined && cache.length > 0) {
-      wx.showModal({
-        title: '温馨提示',
-        content: "这张已赞过，你可以点赞下一张，谢谢.",
-        showCancel: false
+      wx.showToast({
+        title: "已赞过,谢谢",
+        icon: 'success',
+        duration: 2000
       })
     } else {
       saveCache(key, 'has_kile');
@@ -178,12 +180,6 @@ Page({
 //点赞功能
 var commitLike = function(that, bizId) {
   var userInfo = app.globalData.userInfo;
-  if (userInfo == null || userInfo == undefined) {
-    wx.navigateTo({
-      url: '../login/login'
-    });
-    return;
-  }
   var user = JSON.parse(userInfo);
   var name = user.nickName;
   var face = user.avatarUrl;
@@ -211,13 +207,12 @@ var commitLike = function(that, bizId) {
           showCancel: false
         })
         return false;
-      } else {
-        wx.showModal({
-          title: '温馨提示',
-          content: "谢谢点赞",
-          showCancel: false
-        })
       }
+      wx.showToast({
+        title: "谢谢点赞",
+        icon: 'success',
+        duration: 2000
+      })
     }
   });
 }

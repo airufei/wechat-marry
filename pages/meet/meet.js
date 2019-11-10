@@ -139,6 +139,11 @@ function getMeetDataByOpenId(that) {
       var phone = res.data.data.phone;
       var num = res.data.data.num;
       var type = res.data.data.type;
+      wx.showToast({
+        title: message,
+        icon: 'success',
+        duration: 2000
+      })
       if (code == 200) {
         that.setData({
           userPhone: phone,
