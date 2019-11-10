@@ -139,11 +139,6 @@ function getMeetDataByOpenId(that) {
       var phone = res.data.data.phone;
       var num = res.data.data.num;
       var type = res.data.data.type;
-      wx.showToast({
-        title: message,
-        icon: 'success',
-        duration: 2000
-      })
       if (code == 200) {
         that.setData({
           userPhone: phone,
@@ -173,11 +168,11 @@ function sendMeet(jsonData) {
       if (message == null || message == undefined) {
         message = "出现错误了，不好意思";
       }
-      wx.showModal({
-        title: '提示',
-        content: message,
-        showCancel: false
-      });
+      wx.showToast({
+        title: message,
+        icon: 'success',
+        duration: 2000
+      })
     }
   })
 };
