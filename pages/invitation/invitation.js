@@ -10,6 +10,13 @@ Page({
       withShareTicket: true
     })
   },
+  /**
+ * 生命周期函数--监听页面显示
+ */
+  onShow: function () {
+    var that = this;
+    common.userIsLogin();
+  },
 });
 //获取邀请函
 function getInvitation(that) {

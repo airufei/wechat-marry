@@ -148,7 +148,7 @@ var getPhotoCommentList = function(that, isConcat) {
         return false;
       }
       var list = res.data.data.list;
-      if (isConcat) {
+      if (isConcat && pageNo > 1) {
         list = that.data.photoCommentList.concat(res.data.data.list);
         that.setData({
           bottom_msg: "加载更多",

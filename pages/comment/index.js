@@ -19,6 +19,13 @@ Page({
     var isConcat = false;
     getMsgList(that, isConcat);
   },
+  /**
+* 生命周期函数--监听页面显示
+*/
+  onShow: function () {
+    var that = this;
+    common.userIsLogin();
+  },
   bindKeyInput: function(e) {
     this.setData({
       inputValue: e.detail.value
@@ -130,7 +137,7 @@ var getMsgList = function(that, isConcat) {
         return false;
       }
       var list = res.data.data.list;
-      if (isConcat) {
+      if (isConcat && pageNo > 1) {
         list = that.data.commentList.concat(res.data.data.list);
         that.setData({
           bottom_line: false,

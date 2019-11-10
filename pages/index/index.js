@@ -35,7 +35,7 @@ Page({
    */
   onShow: function() {
     var that = this;
-    isOpenDomm = true
+    isOpenDomm = true;
     getSetTimeoutCommentList(that); //弹幕
   },
   /**
@@ -59,7 +59,7 @@ Page({
     }
     return {
       title: name,
-      path: '../photo_deatil/deatil?id=' + id + '&url=' + url, // 路径，传递参数到指定页面。
+      path: '/pages/photo_deatil/deatil?id=' + id + '&url=' + url, // 路径，传递参数到指定页面。
       imageUrl: url, // 分享的封面图
       success: function(res) {
         // 转发成功
@@ -341,7 +341,7 @@ var getPhotoList = function(that, isConcat) {
         return false;
       }
       var list = res.data.data.list;
-      if (isConcat) {
+      if (isConcat&&pageNo>1) {
         list = that.data.photoList.concat(res.data.data.list);
         that.setData({
           bottom_line: false,

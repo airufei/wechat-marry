@@ -25,7 +25,9 @@ function userIsLogin() {
             url: '../login/login'
           })
         } else if (res.cancel) {
-          return false;
+          wx.switchTab({
+            url: '/pages/index/index'
+          })
         }
       }
     })
