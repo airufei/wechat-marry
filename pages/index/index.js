@@ -6,8 +6,8 @@ var pageSize = common.pageSize();
 var musicList = null;
 var musicUrl = null;
 var musicTitle = null;
-var timer=null; // 计时器
-var isOpenDomm=true;
+var timer = null; // 计时器
+var isOpenDomm = true;
 Page({
   data: {
     isPlayingMusic: true,
@@ -15,18 +15,15 @@ Page({
     music_url: true,
   },
   onLoad: function(options) {
-    var user=app.globalData.userInfo;
-    common.userIsLogin();
-    if (user == null || user==undefined)
-    {
-return false;
-    }
     wx.startPullDownRefresh;
     var that = this;
     that.setData({
       photoList: [],
-      allCommentList:[],
+      allCommentList: [],
       isOpenDomm: isOpenDomm,
+    });
+    wx.showShareMenu({
+      withShareTicket: true
     })
     var isConcat = false;
     getPhotoList(that, isConcat);
@@ -36,36 +33,72 @@ return false;
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     var that = this;
-    isOpenDomm=true
-    getSetTimeoutCommentList(that);//弹幕
+    isOpenDomm = true
+    getSetTimeoutCommentList(that); //弹幕
   },
   /**
-  * 生命周期函数--监听页面隐藏
-  */
-  onHide: function () {
+   * 用户点击右上角分享（index.js）
+   */
+  onShareAppMessage: function(ops) {
+    if (ops.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(ops.target)
+    }
+    common.userIsLogin();
+    var target = ops.target;
+    if (target == null) {
+      return;
+    }
+    var id = target.dataset.id; //123
+    var url = target.dataset.url;
+    var name = target.dataset.name;
+    if (name == null || name.length<=0||name==undefined)
+    {
+      name="飞叔的婚礼小程序";
+    }
+    return {
+      title: name,
+      path: '../photo_deatil/deatil?id=' + id + '&url=' + url, // 路径，传递参数到指定页面。
+      imageUrl: url, // 分享的封面图
+      success: function(res) {
+        // 转发成功
+        wx.showModal({
+          title: '提示',
+          content: '感谢分享',
+          showCancel: false
+        })
+      },
+      fail: function(res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
+  },
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
     //写在onHide()中，切换页面或者切换底部菜单栏时关闭定时器。
     clearInterval(timer);
-    isOpenDomm=false;
+    isOpenDomm = false;
   },
   //长按切换歌曲
   handleLongPress: function(e) {
     var that = this;
     musicPlay('change');
   },
-  stopOrSatrt: function(){
+  stopOrSatrt: function() {
     var that = this;
-    var message="";
-    if (isOpenDomm)
-    {
-      isOpenDomm=false;
+    var message = "";
+    if (isOpenDomm) {
+      isOpenDomm = false;
       message = "已关闭弹幕";
-    }else
-    {
+    } else {
       isOpenDomm = true;
       message = "已开启弹幕";
-      getSetTimeoutCommentList(that);//彈幕
+      getSetTimeoutCommentList(that); //彈幕
     }
     wx.showModal({
       title: '提示',
@@ -118,21 +151,22 @@ return false;
   },
   btnLike: function(e) {
     var that = this;
+    common.userIsLogin();
     var bizId = e.target.dataset.id; //123
     var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
     var index = e.target.dataset.index;
     var key = openId + bizId;
-    var btnLike = 'photoList[' + index+'].likeCount';
+    var btnLike = 'photoList[' + index + '].likeCount';
     var cache = getCache(key);
-    if (cache != null && cache != undefined && cache.length>0) {
+    if (cache != null && cache != undefined && cache.length > 0) {
       wx.showModal({
         title: '温馨提示',
         content: "这张已赞过，你可以点赞下一张，谢谢.",
         showCancel: false
       })
     } else {
-      saveCache(key,'has_kile');
+      saveCache(key, 'has_kile');
       commitLike(that, bizId);
       this.setData({
         [btnLike]: likecount + 1
@@ -142,7 +176,7 @@ return false;
 });
 
 //点赞功能
-var commitLike= function(that,bizId){
+var commitLike = function(that, bizId) {
   var userInfo = app.globalData.userInfo;
   if (userInfo == null || userInfo == undefined) {
     wx.navigateTo({
@@ -238,8 +272,7 @@ var musicPlay = function(type) {
   newMusicPlayer(musicUrl, musicTitle);
 }
 //音乐播放器
-var newMusicPlayer = function (musicUrl, musicTitle)
-{
+var newMusicPlayer = function(musicUrl, musicTitle) {
   const backgroundAudioManager = wx.getBackgroundAudioManager();
   backgroundAudioManager.title = musicTitle
   backgroundAudioManager.coverImgUrl = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572083110925&di=ce6846d1499b8b77d8167458b4f47e2e&imgtype=0&src=http%3A%2F%2Fimg1.gtimg.com%2Ftech%2Fpics%2Fhv1%2F14%2F8%2F2055%2F133628429.jpg'
@@ -283,10 +316,14 @@ var getMusicList = function() {
 //获取相册列表  "https://rufei.cn/pic/music/e4ed02883b904d228b571cdffa4a6781.mp3"
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo";
-  type ="ptoto_test";
+  type = "ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
   });
+  if (pageNo > 1) {
+    common.userIsLogin();
+    pageNo = 1;
+  }
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
@@ -323,21 +360,21 @@ var getPhotoList = function(that, isConcat) {
   })
 };
 
-var doomPageNo=1;
+var doomPageNo = 1;
 //定时刷新弹幕
-var getSetTimeoutCommentList = function (that) {
-  timer=setInterval(function () {
+var getSetTimeoutCommentList = function(that) {
+  timer = setInterval(function() {
     getAllCommentList(that);
   }, 10000)
 }
 
 //获取照片评论
-var getAllCommentList = function (that) {
+var getAllCommentList = function(that) {
   if (!isOpenDomm) {
     console.log("----关闭弹幕3----");
     return;
   }
-  console.log("----刷弹幕----"+doomPageNo);
+  console.log("----刷弹幕----" + doomPageNo);
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
@@ -348,15 +385,14 @@ var getAllCommentList = function (that) {
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
       var open = res.data.data.open;
-      if (open==undefined||open==null)
-      {
-        open=false;
+      if (open == undefined || open == null) {
+        open = false;
       }
-      if (!open){
+      if (!open) {
         isOpenDomm = open;
       }
       if (code != 200) {

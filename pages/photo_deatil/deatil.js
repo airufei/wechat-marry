@@ -11,7 +11,9 @@ Page({
     var url = options.url;
     pageNo = 1;
     console.log("photoId-----------------" + bizId);
-    common.userIsLogin();
+    wx.showShareMenu({
+      withShareTicket: true
+    })
     wx.startPullDownRefresh;
     var that = this;
     that.setData({
@@ -51,14 +53,9 @@ Page({
   //提交评论
   photoComment: function() {
     var that = this;
+    common.userIsLogin();
     //留言内容不是空值
     var userInfo = app.globalData.userInfo;
-    if (userInfo == null || userInfo == undefined) {
-      wx.navigateTo({
-        url: '../login/login'
-      });
-      return;
-    }
     var user = JSON.parse(userInfo);
     var name = user.nickName;
     var face = user.avatarUrl;
@@ -114,6 +111,10 @@ var getPhotoCommentList = function(that, isConcat) {
   that.setData({
     bottom_msg: "加载中..."
   });
+  if(pageNo>1){
+     common.userIsLogin();
+    pageNo=1;
+  }
   wx.request({
     url: serverUrl + '/msg/getList',
     method: 'POST',
@@ -162,7 +163,7 @@ var getPhotoCommentList = function(that, isConcat) {
 }
 
 //大于当前Id的相册
-var getPhotoGroupList = function (that) {
+var getPhotoGroupList = function(that) {
   var type = "common_photo";
   type = "ptoto_test";
   that.setData({
@@ -180,7 +181,7 @@ var getPhotoGroupList = function (that) {
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
+    success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
       var open = res.data.data.open;

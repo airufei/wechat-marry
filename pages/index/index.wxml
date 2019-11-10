@@ -32,6 +32,8 @@
     <view class="todeatil"> 
       <view class="comment_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="toDetailView">{{item.commentCount}}评</view> 
       <view class="like_btn" data-url="{{item.url}}" data-id="{{item.id}}" data-index="{{listIndex}}" data-name="{{item.name}}" data-likecount="{{item.likeCount}}" bindtap="btnLike">{{item.likeCount}}赞</view> 
+      <button class="share_btn" id="shareBtn" data-url="{{item.url}}"  data-name="{{item.name}}" data-id="{{item.id}}" hover-class="other-button-hover" open-type="share">分享
+      </button>
     </view> 
   </view> 
   <view wx:if="{{bottom_line}}"> 

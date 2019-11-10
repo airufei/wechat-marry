@@ -58,7 +58,6 @@ Page({
     type:0,
   },
   onLoad: function(options) {
-    common.userIsLogin();
     var that = this;
     getMeetDataByOpenId(that);
   },
@@ -77,6 +76,11 @@ Page({
     })
   },
   formSubmit: function(e) {
+    common.userIsLogin();
+    var openId = app.globalData.openId;
+    if (openId == null || openId == undefined) {
+      return;
+    }
     var userName = e.detail.value.userName;
     var remark = e.detail.value.remark;
     var phone = e.detail.value.phone;
@@ -94,7 +98,7 @@ Page({
       'type': type,
       'userName': userName,
       'remark': remark,
-      'openId': app.globalData.openId
+      'openId': openId
     }
     sendMeet(jsonData);
   },
@@ -113,6 +117,9 @@ Page({
 //获取参会信息
 function getMeetDataByOpenId(that) {
   var openId = app.globalData.openId;
+  if(openId==null||openId==undefined){
+    return;
+  }
   common.upLog("获取参会信息 openId:" + openId);
   var postUrl = serverUrl + 'meet/getMeeting';
   wx.request({
@@ -172,6 +179,11 @@ function sendMeet(jsonData) {
 
 //通过解密获取手机号
 function getWxEnPhone(that, ency, iv, sessionkey) {
+  common.userIsLogin();
+  var openId = app.globalData.openId;
+  if (openId == null || openId == undefined) {
+    return;
+  }
   var postUrl = serverUrl + 'user/getUserPhone';
   common.upLog("开始获取解密信息 sessionkey：" + sessionkey);
   wx.request({

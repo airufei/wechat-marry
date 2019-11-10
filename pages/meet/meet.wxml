@@ -1,6 +1,5 @@
-<view class="container">
-  <form style="width:100%" bindsubmit="formSubmit">
     <view class="table_center">
+      <form  bindsubmit="formSubmit">
       <view class="content_center">
         <input placeholder="请输入你的姓名" class="send_ipt" value="{{name}}" name="userName" maxlength="4" />
       </view>
@@ -32,9 +31,9 @@
       <view class="btn_content_center">
         <button form-type="submit" class="send_btn">提交</button>
       </view>
+        </form>
     </view>
-  </form>
+
   <view>
     <text class="bottom_remark">说明：填写信息仅用于婚礼上的联系，请放心填写。</text>
   </view>
-</view>

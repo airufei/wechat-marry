@@ -4,16 +4,12 @@ var serverUrl = common.getserverUrl();
 Page({
   onLoad: function(options) {
     var that = this;
+    common.userIsLogin();
     getInvitation(that);
+    wx.showShareMenu({
+      withShareTicket: true
+    })
   },
-  btnToMeet: function(){
-    console.log('我要参加', '点击---btnToMeet----')
-    wx.switchTab({
-      url: '../meet/meet'
-    });
-    console.log('我要参加', '点击---btnToMeet--end--')
-    return;
-  }
 });
 //获取邀请函
 function getInvitation(that) {

@@ -155,6 +155,19 @@
     border-radius: 10rpx;
     color: white
 }
+.share_btn {
+    width: 150rpx;
+    height: 60rpx;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 28rpx;
+    line-height: 60rpx;
+    text-align: center;
+    float: right;
+    background: #CD96CD;
+    border-radius: 10rpx;
+    color: white
+}
 .aon{
 position: absolute;
 white-space:nowrap;/* 防止向下换行*/

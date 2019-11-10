@@ -16,8 +16,18 @@ function userIsLogin() {
   }
   var openId = app.globalData.openId;
   if (openId == null || openId == undefined) {
-    wx.redirectTo({
-      url: '../login/login'
+    wx.showModal({
+      title: '温馨提示',
+      content: '更多内容请登录，是否前往登录？',
+      success: function(res) {
+        if (res.confirm) {
+          wx.redirectTo({
+            url: '../login/login'
+          })
+        } else if (res.cancel) {
+          return false;
+        }
+      }
     })
   }
 };
@@ -33,8 +43,7 @@ function upLog(logContent) {
     header: {
       'content-type': 'application/x-www-form-urlencoded'
     },
-    success: function (res) {
-    }
+    success: function(res) {}
   })
 }
 module.exports.getserverUrl = getserverUrl;

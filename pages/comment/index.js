@@ -47,13 +47,8 @@ Page({
   comment: function() {
     var that = this;
     //留言内容不是空值
+    common.userIsLogin();
     var userInfo = app.globalData.userInfo;
-    if (userInfo == null || userInfo == undefined) {
-      wx.navigateTo({
-        url: '../login/login'
-      });
-      return;
-    }
     var user = JSON.parse(userInfo);
     var name = user.nickName;
     var face = user.avatarUrl;
