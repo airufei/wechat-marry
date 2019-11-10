@@ -4,6 +4,7 @@
 # 功能:
 
 1、瀑布流式的婚纱照展示，并配有点赞功能、评论、弹幕、音乐切换和弹幕开关。
+<img src="https://github.com/airufei/wechat-marry/blob/master/images/other/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20191110182810.png" width=500px height=800px />
 ![img](https://github.com/airufei/wechat-marry/blob/master/images/other/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20191110182810.png)
 
 2、照片点击放大功能以及每张照片的评论与展示功能。
