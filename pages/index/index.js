@@ -47,19 +47,23 @@ Page({
       console.log(ops.target)
     }
     common.userIsLogin();
+    var openId = app.globalData.openId;
+    if (openId == null || openId == undefined) {
+      return false;
+    }
     var target = ops.target;
     if (target == null) {
-      return;
+      return false;
     }
     var id = target.dataset.id; //123
     var url = target.dataset.url;
     var name = target.dataset.name;
     if (name == null || name.length <= 0 || name == undefined) {
-      name = "飞叔的婚礼小程序";
+      name = "如飞泽丽的婚纱相册";
     }
     return {
       title: name,
-      path: '/pages/photo_deatil/deatil?id=' + id + '&url=' + url, // 路径，传递参数到指定页面。
+      path: '/pages/photo_deatil/deatil?id=' + id, // 路径，传递参数到指定页面。
       imageUrl: url, // 分享的封面图
       success: function(res) {
         // 转发成功
@@ -154,7 +158,7 @@ Page({
     var bizId = e.target.dataset.id; //123
     var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
-    if (openId == null) {
+    if (openId == null || openId == undefined) {
       return;
     }
     var index = e.target.dataset.index;
@@ -225,7 +229,7 @@ var commitLike = function(that, bizId) {
 //获取banner图
 var getBannerList = function(that) {
   var type = "banner_photo";
- // type = "ptoto_test";
+  type = "ptoto_test";
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
@@ -318,7 +322,7 @@ var getMusicList = function() {
 //获取相册列表  "https://rufei.cn/pic/music/e4ed02883b904d228b571cdffa4a6781.mp3"
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo";
-  //type = "ptoto_test";
+  type = "ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
   });

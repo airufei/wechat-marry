@@ -8,7 +8,6 @@ var totalCount = 0;
 Page({
   onLoad: function(options) {
     bizId = options.id; //123
-    var url = options.url;
     pageNo = 1;
     console.log("photoId-----------------" + bizId);
     wx.showShareMenu({
@@ -22,9 +21,9 @@ Page({
       bottom_line: false,
       isShowCommentBtn: false,
       open: true,
-      bg_img_url: url,
     })
     var isConcat = false;
+    getPhotoById(that, bizId);
     common.isShow(that);
     getPhotoCommentList(that, isConcat);
   },
@@ -44,11 +43,52 @@ Page({
     getPhotoCommentList(that, isConcat);
   },
   /**
-* 生命周期函数--监听页面显示
-*/
-  onShow: function () {
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
     var that = this;
     common.isShow(that);
+  },
+  /**
+   * 用户点击右上角分享（index.js）
+   */
+  onShareAppMessage: function(ops) {
+    if (ops.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(ops.target)
+    }
+    common.userIsLogin();
+    var openId = app.globalData.openId;
+    if (openId == null || openId == undefined) {
+      return false;
+    }
+    var target = ops.target;
+    if (target == null) {
+      return false;
+    }
+    var id = target.dataset.id; //123
+    var url = target.dataset.url;
+    var name = target.dataset.name;
+    if (name == null || name.length <= 0 || name == undefined) {
+      name = "如飞泽丽的婚纱相册";
+    }
+    return {
+      title: name,
+      path: '/pages/photo_deatil/deatil?id=' + id, // 路径，传递参数到指定页面。
+      imageUrl: url, // 分享的封面图
+      success: function(res) {
+        // 转发成功
+        wx.showToast({
+          title: '感谢分享',
+          icon: 'success',
+          duration: 2000
+        })
+      },
+      fail: function(res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
   },
   /**
    * 页面上拉触底事件的处理函数
@@ -63,7 +103,10 @@ Page({
   photoComment: function() {
     var that = this;
     common.userIsLogin();
-    ///dianping
+    var openId = app.globalData.openId;
+    if (openId == null || openId == undefined) {
+      return false;
+    }
     var userInfo = app.globalData.userInfo;
     var user = JSON.parse(userInfo);
     var name = user.nickName;
@@ -87,7 +130,7 @@ Page({
         'photoUrl': face,
         'content': words,
         'type': 'photo_comment',
-        'openId': app.globalData.openId
+        'openId': openId
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -112,8 +155,79 @@ Page({
       inputValue: '' //将data的inputValue清空
     });
     return;
-  }
+  },
+  btnLike: function(e) {
+    var that = this;
+    common.userIsLogin();
+    var bizId = e.target.dataset.id; //123
+    var likecount = e.target.dataset.likecount; //123
+    var openId = app.globalData.openId;
+    if (openId == null) {
+      return;
+    }
+    var index = e.target.dataset.index;
+    var key = openId + bizId;
+    var cache = getCache(key);
+    if (cache != null && cache != undefined && cache.length > 0) {
+      wx.showToast({
+        title: "已赞过,谢谢",
+        icon: 'success',
+        duration: 2000
+      })
+    } else {
+      saveCache(key, 'has_kile');
+      commitLike(that, bizId);
+      this.setData({
+        [btnLike]: likecount + 1
+      });
+    }
+  },
 });
+
+//点赞功能
+var commitLike = function(that, bizId) {
+  var userInfo = app.globalData.userInfo;
+  var user = JSON.parse(userInfo);
+  var name = user.nickName;
+  var face = user.avatarUrl;
+  var openId = app.globalData.openId;
+  if (openId == null || openId == undefined) {
+    return;
+  }
+  wx.request({
+    url: serverUrl + '/like/save',
+    method: 'POST',
+    data: {
+      "sourceCode": "wechat",
+      'bizId': bizId,
+      'likeCount': 1,
+      'nickName': name,
+      'photoUrl': face,
+      'type': 'photo_like',
+      'openId': app.globalData.openId
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: res => {
+      var code = res.data.code
+      var message = res.data.message
+      if (code != 200) {
+        wx.showModal({
+          title: '提示',
+          content: res.data.message,
+          showCancel: false
+        })
+        return false;
+      }
+      wx.showToast({
+        title: "谢谢点赞",
+        icon: 'success',
+        duration: 2000
+      })
+    }
+  })
+}
 
 //获取照片zhufu
 var getPhotoCommentList = function(that, isConcat) {
@@ -121,9 +235,9 @@ var getPhotoCommentList = function(that, isConcat) {
   that.setData({
     bottom_msg: "加载中..."
   });
-  if(pageNo>1){
-     common.userIsLogin();
-    pageNo=1;
+  if (pageNo > 1) {
+    common.userIsLogin();
+    pageNo = 1;
   }
   wx.request({
     url: serverUrl + '/msg/getList',
@@ -174,20 +288,12 @@ var getPhotoCommentList = function(that, isConcat) {
 }
 
 //大于当前Id的相册
-var getPhotoGroupList = function(that) {
-  var type = "common_photo";
-  type = "ptoto_test";
-  that.setData({
-    bottom_msg: "加载中..."
-  });
+var getPhotoById = function(that, bizId) {
   wx.request({
-    url: serverUrl + '/photo/getList',
+    url: serverUrl + '/photo/getWxPhoto',
     method: 'POST',
     data: {
       "sourceCode": "wechat",
-      "pageNo": pageNo,
-      "pageSize": pageSize,
-      "type": type,
       'id': bizId
     },
     header: {
@@ -196,19 +302,40 @@ var getPhotoGroupList = function(that) {
     success: function(res) {
       var code = res.data.code;
       var message = res.data.message;
-      var open = res.data.data.open;
-      if (open == undefined || open == null) {
-        open = false;
-      }
       if (code != 200) {
         return false;
       }
-      var list = res.data.data.list;
+      var name = res.data.data.name;
+      var url = res.data.data.url;
+      var likeCount = res.data.data.likeCount;
+      var id = res.data.data.id;
       that.setData({
-        photoGroupList: list,
-        open: open,
-        photoGroupList: list
+        name: name,
+        url: url,
+        id: id,
+        likeCount: likeCount
       });
     }
   })
+};
+
+//存储本地缓存
+var saveCache = function (key, value) {
+  try {
+    var key = "cache_type_" + key;
+    wx.setStorageSync(key, value);
+  } catch (e) {
+    console.log("saveCache---------------------" + e)
+  }
+};
+//获取本地缓存
+var getCache = function (key) {
+  var key = "cache_type_" + key;
+  var cacheValue = null;
+  try {
+    cacheValue = wx.getStorageSync(key.toString());
+  } catch (e) {
+    console.log("getCache---------------------" + e)
+  }
+  return cacheValue;
 };

@@ -57,6 +57,10 @@ Page({
   comment: function() {
     var that = this;
     common.userIsLogin();
+    var openId= app.globalData.openId;
+    if (openId == null || openId == undefined) {
+      return;
+    }
     var userInfo = app.globalData.userInfo;
     var user = JSON.parse(userInfo);
     var name = user.nickName;

@@ -118,6 +118,40 @@ animation-fill-mode: none;
   width: 100%;
   position: absolute;
 }
+.todeatil {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  height: 70rpx;
+  right: 10px;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+ border-top: 1px solid #f1f1f1;
+  border-bottom: 1px solid #f1f1f1;
+}
+.like_btn {
+    width: 150rpx;
+    height: 60rpx;
+    font-size: 28rpx;
+    line-height: 60rpx;
+    background: #CD96CD;
+    text-align: center;
+    float: right;
+    border-radius: 10rpx;
+    color: white
+}
+.share_btn {
+    width: 150rpx;
+    height: 60rpx;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 28rpx;
+    line-height: 60rpx;
+    text-align: center;
+    float: right;
+    background: #CD96CD;
+    border-radius: 10rpx;
+    color: white
+}
 @keyframes first{
   from{left: 100%; }
   to{left: -100%;}

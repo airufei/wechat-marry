@@ -13,6 +13,11 @@ Page({
       app.globalData.userInfo = userInfo;
       login(userInfo);
     } else {
+      wx.showToast({
+        title: '获取用户信息失败',
+        icon: 'success',
+        duration: 2000
+      })
       common.upLog("获取用户信息失败" + e.detail.errMsg);
     }
   }
@@ -59,7 +64,13 @@ function save(userInfo, code) {
     },
     success: function(res) {
       var code = res.data.code;
-      common.upLog("保存用户数据结束 code=" + code);
+      var message = res.data.message
+      common.upLog("保存用户数据结束 message=" + message);
+      wx.showToast({
+        title: message,
+        icon: 'success',
+        duration: 2000
+      })
       if (code != 200) {
         return false;
       }

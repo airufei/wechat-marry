@@ -1,17 +1,18 @@
 <view class="container">
 
   <view class="bg_img">
-    <image src="{{bg_img_url}}" class="photo_image_style" title="{{bg_img_name}}" mode="widthFix" />
+    <image src="{{url}}" class="photo_image_style" title="{{name}}" mode="widthFix" />
+  </view>
+
+  <view class="todeatil">
+    <view class="like_btn" data-id="{{id}}"  bindtap="btnLike" >{{likeCount}}赞</view>
+    <button class="share_btn" id="shareBtn" data-url="{{url}}" data-id="{{id}}" data-name="{{name}}" data-likecount="{{likeCount}}" hover-class="other-button-hover" open-type="share">分享
+    </button>
   </view>
 
   <view class="bottom_msg">已有
     <text style="color:red">{{totalCount}}</text>条好友祝福，你也参与祝福吧，谢谢</view>
-  <view class="todeatil"> 
-      <view class="comment_btn">{{item.commentCount}}评</view> 
-      <view class="like_btn">{{item.likeCount}}赞</view> 
-      <button class="share_btn" hover-class="other-button-hover" open-type="share">分享
-</button>
-    </view> 
+
   <view class="chat_list" wx:for="{{photoCommentList}}" wx:key="comment">
     <view class="chat_face">
       <image src="{{item.photoUrl}}" />
@@ -33,12 +34,5 @@
       <input placeholder="参与祝福" class="send_ipt" bindinput="bindKeyInput" />
       <button form-type="reset" class="send_btn">祝福</button>
     </form>
-  </view>
-  <view class="doommview">
-    <block wx:for="{{photoCommentList}}" wx:key="id">
-      <text  class="aon" style="animation: first {{item.time}}s linear forwards;top:{{item.top}}%;color:{{item.color}};">
-            {{item.nickName}}:{{item.content}}
-        </text>
-    </block>
   </view>
 </view>
