@@ -8,6 +8,7 @@ Page({
   data: {
     commentList: [],
     bottom_line: false,
+    isShowCommentBtn:false,
     totalCount: totalCount,
   },
   onLoad: function(options) {
@@ -18,6 +19,7 @@ Page({
     pageNo = 1;
     var isConcat = false;
     getMsgList(that, isConcat);
+    common.isShow(that);
   },
   /**
 * 生命周期函数--监听页面显示
@@ -25,6 +27,7 @@ Page({
   onShow: function () {
     var that = this;
     common.userIsLogin();
+    common.isShow(that);
   },
   bindKeyInput: function(e) {
     this.setData({
@@ -50,10 +53,9 @@ Page({
     var isConcat = true;
     getMsgList(that, isConcat);
   },
-  //提交评论
+  //祝福
   comment: function() {
     var that = this;
-    //留言内容不是空值
     common.userIsLogin();
     var userInfo = app.globalData.userInfo;
     var user = JSON.parse(userInfo);
@@ -63,7 +65,7 @@ Page({
     if (words == null || words == undefined) {
       wx.showModal({
         title: '提示',
-        content: '您还没有填写内容',
+        content: '您还没有祝福',
         showCancel: false
       })
       return false;
@@ -72,6 +74,7 @@ Page({
       url: serverUrl + '/msg/save',
       method: 'POST',
       data: {
+        "sourceCode": "wechat",
         'nickName': name,
         'photoUrl': face,
         'content': words,
@@ -104,6 +107,8 @@ Page({
   }
 });
 
+
+
 //获取留言列表
 var getMsgList = function(that, isConcat) {
   that.setData({
@@ -114,6 +119,7 @@ var getMsgList = function(that, isConcat) {
     url: serverUrl + '/msg/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": pageSize,
       "type": type
@@ -129,7 +135,7 @@ var getMsgList = function(that, isConcat) {
         totalCount=0;
       }
       that.setData({
-        bottom_msg: "没有更多祝福了,你说几句呗...",
+        bottom_msg: "没有更多祝福了,你也祝福吧...",
         bottom_line: true,
         totalCount: totalCount,
       });

@@ -33,6 +33,26 @@ function userIsLogin() {
     })
   }
 };
+ function isShow (that) {
+  wx.request({
+    url: serverUrl + '/msg/isShow',
+    method: 'POST',
+    data: {
+      "sourceCode": "wechat",
+    },
+    header: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    success: function (res) {
+      var code = res.data.code;
+      if (code == 200) {
+        that.setData({
+          isShowCommentBtn: true
+        });
+      }
+    }
+  })
+}
 //上传日志
 function upLog(logContent) {
   var postUrl = getserverUrl() + 'log/upLog';
@@ -52,3 +72,4 @@ module.exports.getserverUrl = getserverUrl;
 module.exports.userIsLogin = userIsLogin;
 module.exports.pageSize = pageSize;
 module.exports.upLog = upLog;
+module.exports.isShow = isShow;

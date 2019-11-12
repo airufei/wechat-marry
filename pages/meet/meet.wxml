@@ -26,10 +26,10 @@
         </view>
       </view>
       <view class="content_center">
-        <input placeholder="备注说明" class="send_ipt" value="{{remark}}" maxlength="50" name="remark" />
+        <input placeholder="其他" class="send_ipt" value="{{remark}}" maxlength="50" name="remark" />
       </view>
       <view class="btn_content_center">
-        <button form-type="submit" class="send_btn">提交</button>
+        <button form-type="submit" class="send_btn">立即参加</button>
       </view>
         </form>
     </view>

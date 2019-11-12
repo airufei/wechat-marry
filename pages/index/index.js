@@ -135,8 +135,8 @@ Page({
    */
   onReachBottom: function() {
     var that = this;
-    pageNo = pageNo + 1;
     var isConcat = true;
+    pageNo = pageNo + 1;
     getPhotoList(that, isConcat);
   },
   //跳转详情
@@ -183,10 +183,15 @@ var commitLike = function(that, bizId) {
   var user = JSON.parse(userInfo);
   var name = user.nickName;
   var face = user.avatarUrl;
+  var openId = app.globalData.openId;
+  if (openId == null || openId == undefined) {
+    return;
+  }
   wx.request({
     url: serverUrl + '/like/save',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       'bizId': bizId,
       'likeCount': 1,
       'nickName': name,
@@ -220,11 +225,12 @@ var commitLike = function(that, bizId) {
 //获取banner图
 var getBannerList = function(that) {
   var type = "banner_photo";
-  type = "ptoto_test";
+ // type = "ptoto_test";
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": 10,
       "type": type
@@ -290,6 +296,7 @@ var getMusicList = function() {
     url: serverUrl + '/music/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": pageSize,
       "type": type
@@ -311,18 +318,22 @@ var getMusicList = function() {
 //获取相册列表  "https://rufei.cn/pic/music/e4ed02883b904d228b571cdffa4a6781.mp3"
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo";
-  type = "ptoto_test";
+  //type = "ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
   });
   if (pageNo > 1) {
     common.userIsLogin();
+  }
+  var openId = app.globalData.openId;
+  if (openId == null || openId == undefined) {
     pageNo = 1;
   }
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": pageSize,
       "type": type
@@ -341,7 +352,7 @@ var getPhotoList = function(that, isConcat) {
         return false;
       }
       var list = res.data.data.list;
-      if (isConcat&&pageNo>1) {
+      if (isConcat && pageNo > 1) {
         list = that.data.photoList.concat(res.data.data.list);
         that.setData({
           bottom_line: false,
@@ -374,6 +385,7 @@ var getAllCommentList = function(that) {
     url: serverUrl + '/msg/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": doomPageNo,
       "pageSize": 10,
     },

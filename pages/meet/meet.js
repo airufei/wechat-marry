@@ -91,6 +91,7 @@ Page({
     var name = user.nickName;
     var face = user.avatarUrl;
     var jsonData = {
+      "sourceCode": "wechat",
       'nickName': name,
       'photoUrl': face,
       'phone': phone,
@@ -126,6 +127,7 @@ function getMeetDataByOpenId(that) {
     url: postUrl,
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       'openId': openId
     },
     header: {

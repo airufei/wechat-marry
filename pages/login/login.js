@@ -45,6 +45,7 @@ function save(userInfo, code) {
     url: postUrl,
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       'nickName': name,
       'age': age,
       'country': country,

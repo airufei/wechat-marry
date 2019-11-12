@@ -5,7 +5,13 @@
   </view>
 
   <view class="bottom_msg">已有
-    <text style="color:red">{{totalCount}}</text>条好友评论，你也评论两句吧，谢谢</view>
+    <text style="color:red">{{totalCount}}</text>条好友祝福，你也参与祝福吧，谢谢</view>
+  <view class="todeatil"> 
+      <view class="comment_btn">{{item.commentCount}}评</view> 
+      <view class="like_btn">{{item.likeCount}}赞</view> 
+      <button class="share_btn" hover-class="other-button-hover" open-type="share">分享
+</button>
+    </view> 
   <view class="chat_list" wx:for="{{photoCommentList}}" wx:key="comment">
     <view class="chat_face">
       <image src="{{item.photoUrl}}" />
@@ -22,10 +28,10 @@
     <view class="bottom_line"></view>
   </view>
   <view class="bottom_msg">{{bottom_msg}}</view>
-  <view class="send_msg">
+  <view wx:if="{{isShowCommentBtn}}" class="send_msg">
     <form bindreset="photoComment">
-      <input placeholder="你也评论两句吧，谢谢" class="send_ipt" bindinput="bindKeyInput" />
-      <button form-type="reset" class="send_btn">发布</button>
+      <input placeholder="参与祝福" class="send_ipt" bindinput="bindKeyInput" />
+      <button form-type="reset" class="send_btn">祝福</button>
     </form>
   </view>
   <view class="doommview">

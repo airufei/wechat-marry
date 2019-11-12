@@ -20,10 +20,12 @@ Page({
       totalCount: totalCount,
       photoCommentList: [],
       bottom_line: false,
+      isShowCommentBtn: false,
       open: true,
       bg_img_url: url,
     })
     var isConcat = false;
+    common.isShow(that);
     getPhotoCommentList(that, isConcat);
   },
   bindKeyInput: function(e) {
@@ -42,6 +44,13 @@ Page({
     getPhotoCommentList(that, isConcat);
   },
   /**
+* 生命周期函数--监听页面显示
+*/
+  onShow: function () {
+    var that = this;
+    common.isShow(that);
+  },
+  /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
@@ -50,11 +59,11 @@ Page({
     var isConcat = true;
     getPhotoCommentList(that, isConcat);
   },
-  //提交评论
+  //dianping
   photoComment: function() {
     var that = this;
     common.userIsLogin();
-    //留言内容不是空值
+    ///dianping
     var userInfo = app.globalData.userInfo;
     var user = JSON.parse(userInfo);
     var name = user.nickName;
@@ -62,7 +71,7 @@ Page({
     var words = that.data.inputValue;
     if (words == null || words == undefined) {
       wx.showToast({
-        title: "没有填写内容",
+        title: "没有祝福",
         icon: 'success',
         duration: 2000
       })
@@ -72,6 +81,7 @@ Page({
       url: serverUrl + '/msg/save',
       method: 'POST',
       data: {
+        "sourceCode": "wechat",
         'bizId': bizId,
         'nickName': name,
         'photoUrl': face,
@@ -105,7 +115,7 @@ Page({
   }
 });
 
-//获取照片评论
+//获取照片zhufu
 var getPhotoCommentList = function(that, isConcat) {
   var type = "photo_comment"
   that.setData({
@@ -119,6 +129,7 @@ var getPhotoCommentList = function(that, isConcat) {
     url: serverUrl + '/msg/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": pageSize,
       "type": type,
@@ -140,7 +151,7 @@ var getPhotoCommentList = function(that, isConcat) {
       }
       that.setData({
         totalCount: totalCount,
-        bottom_msg: "没有更多评论了,你说几句呗...",
+        bottom_msg: "没有更多祝福了,你也祝福吧...",
         bottom_line: true,
         open: open,
       });
@@ -173,6 +184,7 @@ var getPhotoGroupList = function(that) {
     url: serverUrl + '/photo/getList',
     method: 'POST',
     data: {
+      "sourceCode": "wechat",
       "pageNo": pageNo,
       "pageSize": pageSize,
       "type": type,

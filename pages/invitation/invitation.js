@@ -25,7 +25,7 @@ function getInvitation(that) {
     url: postUrl,
     method: 'POST',
     data: { 
-
+      "sourceCode": "wechat",
     },
     header: {
       'content-type': 'application/x-www-form-urlencoded'
