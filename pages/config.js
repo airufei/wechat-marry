@@ -1,7 +1,6 @@
 var xmf_server_url_pro = 'https://rufei.cn';
 var xmf_server_url_dev = 'http://localhost:8082';
 var app = getApp();
-
 function getserverUrl() {
   return xmf_server_url_pro + "/wechat/";
 }
@@ -35,7 +34,7 @@ function userIsLogin() {
 };
  function isShow (that) {
   wx.request({
-    url: serverUrl + '/msg/isShow',
+    url: getserverUrl() + '/msg/isShow',
     method: 'POST',
     data: {
       "sourceCode": "wechat",
