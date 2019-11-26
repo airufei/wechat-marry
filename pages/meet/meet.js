@@ -135,6 +135,9 @@ function getMeetDataByOpenId(that) {
     },
     success: function(res) {
       var code = res.data.code;
+      if (code != 200) {
+        return;
+      }
       var message = res.data.message;
       var userName = res.data.data.userName;
       var remark = res.data.data.remark;

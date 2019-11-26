@@ -159,28 +159,14 @@ Page({
   btnLike: function(e) {
     var that = this;
     common.userIsLogin();
-    var bizId = e.target.dataset.id; //123
+     bizId = e.target.dataset.id; //123
     var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
     if (openId == null) {
       return;
     }
-    var index = e.target.dataset.index;
-    var key = openId + bizId;
-    var cache = getCache(key);
-    if (cache != null && cache != undefined && cache.length > 0) {
-      wx.showToast({
-        title: "已赞过,谢谢",
-        icon: 'success',
-        duration: 2000
-      })
-    } else {
-      saveCache(key, 'has_kile');
+      var index = e.target.dataset.index;
       commitLike(that, bizId);
-      this.setData({
-        [btnLike]: likecount + 1
-      });
-    }
   },
 });
 
@@ -220,6 +206,9 @@ var commitLike = function(that, bizId) {
         })
         return false;
       }
+      this.setData({
+        [btnLike]: likecount + 1
+      });
       wx.showToast({
         title: "谢谢点赞",
         icon: 'success',
@@ -305,10 +294,15 @@ var getPhotoById = function(that, bizId) {
       if (code != 200) {
         return false;
       }
+      if (res.data.data == null || res.data.data==undefined)
+      {
+        return false;
+      }
       var name = res.data.data.name;
       var url = res.data.data.url;
       var likeCount = res.data.data.likeCount;
       var id = res.data.data.id;
+      bizId = id;
       that.setData({
         name: name,
         url: url,
@@ -317,25 +311,4 @@ var getPhotoById = function(that, bizId) {
       });
     }
   })
-};
-
-//存储本地缓存
-var saveCache = function (key, value) {
-  try {
-    var key = "cache_type_" + key;
-    wx.setStorageSync(key, value);
-  } catch (e) {
-    console.log("saveCache---------------------" + e)
-  }
-};
-//获取本地缓存
-var getCache = function (key) {
-  var key = "cache_type_" + key;
-  var cacheValue = null;
-  try {
-    cacheValue = wx.getStorageSync(key.toString());
-  } catch (e) {
-    console.log("getCache---------------------" + e)
-  }
-  return cacheValue;
 };

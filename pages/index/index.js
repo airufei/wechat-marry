@@ -164,20 +164,7 @@ Page({
     var index = e.target.dataset.index;
     var key = openId + bizId;
     var btnLike = 'photoList[' + index + '].likeCount';
-    var cache = getCache(key);
-    if (cache != null && cache != undefined && cache.length > 0) {
-      wx.showToast({
-        title: "已赞过,谢谢",
-        icon: 'success',
-        duration: 2000
-      })
-    } else {
-      saveCache(key, 'has_kile');
-      commitLike(that, bizId);
-      this.setData({
-        [btnLike]: likecount + 1
-      });
-    }
+    commitLike(that, bizId);
   },
 });
 
@@ -217,6 +204,9 @@ var commitLike = function(that, bizId) {
         })
         return false;
       }
+      that.setData({
+        [btnLike]: likecount + 1
+      });
       wx.showToast({
         title: "谢谢点赞",
         icon: 'success',
@@ -229,14 +219,14 @@ var commitLike = function(that, bizId) {
 //获取banner图
 var getBannerList = function(that) {
   var type = "banner_photo";
-  type = "ptoto_test";
+  //type = "ptoto_test";
   wx.request({
     url: serverUrl + '/photo/getList',
     method: 'POST',
     data: {
       "sourceCode": "wechat",
       "pageNo": pageNo,
-      "pageSize": 10,
+      "pageSize": 5,
       "type": type
     },
     header: {
@@ -322,7 +312,7 @@ var getMusicList = function() {
 //获取相册列表  "https://rufei.cn/pic/music/e4ed02883b904d228b571cdffa4a6781.mp3"
 var getPhotoList = function(that, isConcat) {
   var type = "common_photo";
-  type = "ptoto_test";
+  //type = "ptoto_test";
   that.setData({
     bottom_msg: "加载中..."
   });
@@ -420,24 +410,3 @@ var getAllCommentList = function(that) {
     }
   })
 }
-
-//存储本地缓存
-var saveCache = function(key, value) {
-  try {
-    var key = "cache_type_" + key;
-    wx.setStorageSync(key, value);
-  } catch (e) {
-    console.log("saveCache---------------------" + e)
-  }
-};
-//获取本地缓存
-var getCache = function(key) {
-  var key = "cache_type_" + key;
-  var cacheValue = null;
-  try {
-    cacheValue = wx.getStorageSync(key.toString());
-  } catch (e) {
-    console.log("getCache---------------------" + e)
-  }
-  return cacheValue;
-};
