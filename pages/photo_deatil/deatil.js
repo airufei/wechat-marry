@@ -160,18 +160,16 @@ Page({
     var that = this;
     common.userIsLogin();
      bizId = e.target.dataset.id; //123
-    var likecount = e.target.dataset.likecount; //123
     var openId = app.globalData.openId;
     if (openId == null) {
       return;
     }
-      var index = e.target.dataset.index;
-      commitLike(that, bizId);
+    commitLike(that, bizId);
   },
 });
 
 //点赞功能
-var commitLike = function(that, bizId) {
+var commitLike = function (that, bizId) {
   var userInfo = app.globalData.userInfo;
   var user = JSON.parse(userInfo);
   var name = user.nickName;
@@ -197,7 +195,8 @@ var commitLike = function(that, bizId) {
     },
     success: res => {
       var code = res.data.code
-      var message = res.data.message
+      var message = res.data.message;
+      var likecount = res.data.data;
       if (code != 200) {
         wx.showModal({
           title: '提示',
@@ -206,8 +205,8 @@ var commitLike = function(that, bizId) {
         })
         return false;
       }
-      this.setData({
-        [btnLike]: likecount + 1
+      that.setData({
+        likeCount: likecount
       });
       wx.showToast({
         title: "谢谢点赞",

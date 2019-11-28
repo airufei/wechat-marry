@@ -138,6 +138,12 @@ function getMeetDataByOpenId(that) {
       if (code != 200) {
         return;
       }
+      if (res.data == null || res.data == undefined) {
+        return;
+      }
+      if (res.data.data == null || res.data.data==undefined) {
+        return;
+      }
       var message = res.data.message;
       var userName = res.data.data.userName;
       var remark = res.data.data.remark;

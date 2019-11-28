@@ -164,12 +164,12 @@ Page({
     var index = e.target.dataset.index;
     var key = openId + bizId;
     var btnLike = 'photoList[' + index + '].likeCount';
-    commitLike(that, bizId);
+    commitLike(that, bizId, btnLike);
   },
 });
 
 //点赞功能
-var commitLike = function(that, bizId) {
+var commitLike = function (that, bizId, btnLike) {
   var userInfo = app.globalData.userInfo;
   var user = JSON.parse(userInfo);
   var name = user.nickName;
@@ -195,7 +195,12 @@ var commitLike = function(that, bizId) {
     },
     success: res => {
       var code = res.data.code
-      var message = res.data.message
+      var message = res.data.message;
+      var likecount = res.data.data;
+      if (likecount == null || likecount==undefined)
+      {
+         likecount=0;
+      }
       if (code != 200) {
         wx.showModal({
           title: '提示',
@@ -205,7 +210,7 @@ var commitLike = function(that, bizId) {
         return false;
       }
       that.setData({
-        [btnLike]: likecount + 1
+        [btnLike]: likecount
       });
       wx.showToast({
         title: "谢谢点赞",

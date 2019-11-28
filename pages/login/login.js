@@ -7,6 +7,11 @@ Page({
   },
   getUserInfo(e) {
     var that = this
+    wx.showToast({
+      title: "请稍后",
+      icon: 'success',
+      duration: 2000
+    })
     common.upLog("获取用户信息=" + e.detail.errMsg);
     if (e.detail.errMsg === 'getUserInfo:ok') {
       var userInfo = e.detail.rawData;
@@ -29,7 +34,6 @@ function login(userInfo) {
     //获取code
     success: function(res) {
       var code = res.code; //返回code
-      common.upLog("调用微信登录 code=" + code);
       save(userInfo,code);
     }
   })
