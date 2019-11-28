@@ -6,7 +6,7 @@ function getserverUrl() {
 }
 
 function pageSize() {
-  return 10;
+  return 5;
 };
 //微信用户是否登录
 function userIsLogin() {
