@@ -3,6 +3,9 @@
     <view>
       <button class="confirm-btn" open-type='getUserInfo' bindgetuserinfo='getUserInfo'>登录</button>
     </view>
+     <view>
+      <button class="cannel-btn" bindtap="cannelbtn" >取消</button>
+    </view>
  <view>
 </view>
 </view>

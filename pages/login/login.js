@@ -25,6 +25,11 @@ Page({
       })
       common.upLog("获取用户信息失败" + e.detail.errMsg);
     }
+  },
+  cannelbtn: function(e) {
+    wx.switchTab({
+      url: '/pages/index/index'
+    })
   }
 });
 
@@ -34,7 +39,7 @@ function login(userInfo) {
     //获取code
     success: function(res) {
       var code = res.code; //返回code
-      save(userInfo,code);
+      save(userInfo, code);
     }
   })
 };
